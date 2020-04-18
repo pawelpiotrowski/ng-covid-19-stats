@@ -1,0 +1,9 @@
+$cvd-light-primary: mat-palette($mat-grey, 200, 500, 300);
+$cvd-light-accent: mat-palette($mat-brown, 200);
+$cvd-light-warn: mat-palette($mat-deep-orange, 200);
+
+$cvd-light-theme: mat-light-theme(
+  $cvd-light-primary,
+  $cvd-light-accent,
+  $cvd-light-warn
+);

@@ -1,0 +1,11 @@
+$cvd-dark-primary: mat-palette($mat-grey, 700, 300, 900);
+$cvd-dark-accent: mat-palette($mat-blue-grey, 400);
+$cvd-dark-warn: mat-palette($mat-red, 500);
+
+$cvd-dark-theme: mat-dark-theme(
+  $cvd-dark-primary,
+  $cvd-dark-accent,
+  $cvd-dark-warn
+);
+
+$cvd-dark-theme-background: #000;
