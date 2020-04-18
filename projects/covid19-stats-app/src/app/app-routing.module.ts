@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
+    path: 'about',
+    loadChildren: () => import('./features/about/about.module').then(m => m.AboutModule)
+  },
+  {
     path: '**',
     redirectTo: defaultRoutePath
   }
