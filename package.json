@@ -5,7 +5,8 @@
     "ng": "npx ng",
     "start": "npx ng serve",
     "build": "npx ng build",
-    "test": "npx ng test",
+    "test": "npx ng test --watch=false",
+    "test-watch": "npx ng test",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
     "analyze": "npx ng build --prod --stats-json && webpack-bundle-analyzer ./dist/covid19-stats-app/stats-es2015.json"
