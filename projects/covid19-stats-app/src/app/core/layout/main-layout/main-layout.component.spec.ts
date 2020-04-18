@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { MainLayoutComponent } from './main-layout.component';
 
@@ -8,7 +10,11 @@ describe('MainLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainLayoutComponent ]
+      declarations: [ MainLayoutComponent ],
+      imports: [
+        MatToolbarModule,
+        RouterTestingModule,
+      ],
     })
     .compileComponents();
   }));

@@ -6,6 +6,6 @@ export class AppPage {
   }
 
   getTitleText(): Promise<string> {
-    return element(by.css('cvd-root .content span')).getText() as Promise<string>;
+    return element(by.css('cvd-root cvd-main-layout mat-toolbar')).getText() as Promise<string>;
   }
 }

@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display application title', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('covid19-stats-app app is running!');
+    expect(page.getTitleText()).toContain('COVID-19 Stats');
   });
 
   afterEach(async () => {

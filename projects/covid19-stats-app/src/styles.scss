@@ -25,7 +25,7 @@
 }
 
 .app--dark-theme {
-  @include angular-material-theme($cvd-light-theme);
+  @include angular-material-theme($cvd-dark-theme);
   background-color: $cvd-dark-theme-background;
 }
 
