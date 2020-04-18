@@ -13,6 +13,11 @@ describe('workspace-project App', () => {
     expect(page.getTitleText()).toContain('COVID-19 Stats');
   });
 
+  it('should navigate to default route', () => {
+    page.navigateTo();
+    expect(browser.getCurrentUrl()).toContain('/dashboard');
+  });
+
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
