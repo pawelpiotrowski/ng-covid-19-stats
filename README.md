@@ -23,6 +23,12 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io) in headless Chrome.
 Run `npm run test-watch` to execute the unit tests via in watch mode Chrome.
 
+To run single test or test-watch
+`npm run test -- --include <test-relative-path.spec.ts>`
+
+To run directory or bunch of files
+`npm run test -- --include src/app/components`
+
 ## Running end-to-end tests
 
 Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
