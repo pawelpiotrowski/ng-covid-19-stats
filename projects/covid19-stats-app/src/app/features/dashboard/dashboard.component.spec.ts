@@ -89,7 +89,7 @@ describe('DashboardComponent', () => {
             value: globalStatsUpdateDataMock.recovered
           },
           {
-            label: 'Diff',
+            label: 'Unwell',
             style: IStatisticCardStyleEnum.neut,
             value: globalStatsUpdateDataMock.ill
           }

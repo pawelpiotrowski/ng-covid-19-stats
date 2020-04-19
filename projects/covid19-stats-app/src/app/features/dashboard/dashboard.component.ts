@@ -53,7 +53,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         value: recovered
       },
       {
-        label: 'Diff',
+        label: 'Unwell',
         style: IStatisticCardStyleEnum.neut,
         value: ill
       }
