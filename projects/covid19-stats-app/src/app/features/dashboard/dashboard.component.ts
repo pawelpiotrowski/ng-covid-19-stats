@@ -1,38 +1,61 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { IStatisticCard, IStatisticCardStyleEnum } from '../../shared/statistic-card/statistic-card';
+import { DataService } from '../../core/services/data/data.service';
+import { IDataGlobalStats } from '../../core/services/data/data';
 
 @Component({
   selector: 'cvd-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnDestroy, OnInit {
+  public globalStats: IStatisticCard[];
+  private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
 
-  public stats: IStatisticCard[];
-  constructor() { }
+  constructor(private data: DataService) {
+    this.destroySubscriptions$ = new Subject();
+  }
 
   ngOnInit(): void {
-    this.stats = [
+    this.data.getGlobalStatsUpdates()
+      .pipe(takeUntil(this.destroySubscriptions$))
+      .subscribe(this.globalStatsUpdatesHandler.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscriptions$.next(true);
+    this.destroySubscriptions$.unsubscribe();
+  }
+
+  private globalStatsUpdatesHandler(data: IDataGlobalStats): void {
+    if (data === null) {
+      return;
+    }
+    const { ill, infected, deaths, recovered } = data;
+
+    this.globalStats = [
       {
         label: 'Infected',
         style: IStatisticCardStyleEnum.warn,
-        value: 100000
+        value: infected
       },
       {
         label: 'Deaths',
         style: IStatisticCardStyleEnum.err,
-        value: 1000
+        value: deaths
       },
       {
         label: 'Recovered',
         style: IStatisticCardStyleEnum.scs,
-        value: 35000
+        value: recovered
       },
       {
-        label: 'Hospitalised',
+        label: 'Diff',
         style: IStatisticCardStyleEnum.neut,
-        value: 64000
+        value: ill
       }
     ];
   }
