@@ -7,3 +7,8 @@ $cvd-theme: mat-light-theme(
   $cvd-accent,
   $cvd-warn
 );
+
+$cvd-color-warn: map-get($mat-amber, 400);
+$cvd-color-scs: map-get($mat-green, 400);
+$cvd-color-err: map-get($mat-red, 400);
+$cvd-color-neut: map-get($mat-light-blue, 400);
