@@ -1,0 +1,19 @@
+.dashboard {
+  &__charts {
+    height: 100%;
+    &__row {
+      &--50 {
+        height: 50%;
+      }
+    }
+    &__col {
+      height: 100%;
+      &--50 {
+        width: 50%;
+      }
+      &--33 {
+        width: 33%;
+      }
+    }
+  }
+}

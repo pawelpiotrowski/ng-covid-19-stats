@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { IStatisticCard, IStatisticCardStyleEnum } from '../../shared/statistic-card/statistic-card';
 import { DataService } from '../../core/services/data/data.service';
 import { IDataGlobalStats } from '../../core/services/data/data';
+import { IChartOptions } from '../../shared/chart/chart';
 
 @Component({
   selector: 'cvd-dashboard',
@@ -13,6 +14,8 @@ import { IDataGlobalStats } from '../../core/services/data/data';
 })
 export class DashboardComponent implements OnDestroy, OnInit {
   public globalStats: IStatisticCard[];
+  public chartPieOptions: IChartOptions;
+  public chartColumnOptions: IChartOptions;
   private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private data: DataService) {
@@ -58,6 +61,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
         value: ill
       }
     ];
+
+    this.chartPieOptions = { type: 'pie' };
+    this.chartColumnOptions = { type: 'column' };
   }
 
 }
