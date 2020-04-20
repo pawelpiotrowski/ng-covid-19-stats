@@ -1,4 +1,5 @@
 import { ChartPieClass } from './pie/chart-pie-class';
+import { ChartColumnClass } from './column/chart-column-class';
 import { IChartData, IChartOptions } from '../chart';
 import { IChartType, IChartTypeInstance } from './chart-type';
 
@@ -9,6 +10,9 @@ export class ChartTypeClass implements IChartType {
     switch (options.type) {
       case 'pie':
         this.instance = new ChartPieClass();
+        break;
+      case 'column':
+        this.instance = new ChartColumnClass();
         break;
       default:
         this.instance = new ChartPieClass();

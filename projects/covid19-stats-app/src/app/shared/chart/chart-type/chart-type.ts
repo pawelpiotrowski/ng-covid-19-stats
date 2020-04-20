@@ -1,5 +1,6 @@
 import { IChartOptions, IChartData } from '../chart';
 import { IChartPie } from './pie/chart-pie';
+import { IChartColumn } from './column/chart-column';
 
 export interface IChartType {
   instance: IChartTypeInstance;
@@ -30,7 +31,7 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
 /* */
 
 export type IChartOptionType = 'pie'
-  // | 'column'
+  | 'column'
   // | 'radar'
   // | 'serial'
   // | 'gauge'
@@ -44,5 +45,5 @@ export type IChartOptionType = 'pie'
   ;
 
 export type IChart = IChartPie
-  // | IChartColumn
+  | IChartColumn
   ;
