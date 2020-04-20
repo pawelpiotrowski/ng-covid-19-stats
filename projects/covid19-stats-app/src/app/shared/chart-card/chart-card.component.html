@@ -1,5 +1,8 @@
 <mat-card>
+  <mat-card-header *ngIf="title">
+    <mat-card-title>{{ title }}</mat-card-title>
+  </mat-card-header>
   <mat-card-content>
-    <cvd-chart></cvd-chart>
+    <cvd-chart [data]="chartData" [options]="chartOptions"></cvd-chart>
   </mat-card-content>
 </mat-card>
