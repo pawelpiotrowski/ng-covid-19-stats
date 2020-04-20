@@ -1,6 +1,7 @@
 import { IChartOptions, IChartData } from '../chart';
 import { IChartPie } from './pie/chart-pie';
 import { IChartColumn } from './column/chart-column';
+import { IChartLine } from './line/chart-line';
 
 export interface IChartType {
   instance: IChartTypeInstance;
@@ -15,11 +16,11 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
   chart: IChart;
 }
 
-/* Possible amChart types */
+/* amChart types */
 // PieChart
 // GaugeChart
 // RadarChart
-// XYChart (Column)
+// XYChart (Column, Line)
 // SerialChart
 // SlicedChart
 // FlowDiagram
@@ -32,18 +33,10 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
 
 export type IChartOptionType = 'pie'
   | 'column'
-  // | 'radar'
-  // | 'serial'
-  // | 'gauge'
-  // | 'sliced'
-  // | 'flowDiagram'
-  // | 'sankeyDiagram'
-  // | 'chordDiagram'
-  // | 'treeMap'
-  // | 'pie3d'
-  // | 'column3d'
+  | 'line'
   ;
 
 export type IChart = IChartPie
   | IChartColumn
+  | IChartLine
   ;

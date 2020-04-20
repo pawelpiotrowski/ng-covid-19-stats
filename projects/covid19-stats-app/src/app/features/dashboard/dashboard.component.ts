@@ -16,6 +16,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   public globalStats: IStatisticCard[];
   public chartPieOptions: IChartOptions;
   public chartColumnOptions: IChartOptions;
+  public chartLineOptions: IChartOptions;
   private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private data: DataService) {
@@ -64,6 +65,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
     this.chartPieOptions = { type: 'pie' };
     this.chartColumnOptions = { type: 'column' };
+    this.chartLineOptions = { type: 'line' };
   }
 
 }
