@@ -1,8 +1,9 @@
-import { ChartPieClass } from './pie/chart-pie-class';
-import { ChartColumnClass } from './column/chart-column-class';
 import { IChartData, IChartOptions } from '../chart';
 import { IChartType, IChartTypeInstance } from './chart-type';
+import { ChartPieClass } from './pie/chart-pie-class';
+import { ChartColumnClass } from './column/chart-column-class';
 import { ChartLineClass } from './line/chart-line-class';
+import { ChartDonutClass } from './donut/chart-donut-class';
 
 export class ChartTypeClass implements IChartType {
   public instance: IChartTypeInstance;
@@ -17,6 +18,9 @@ export class ChartTypeClass implements IChartType {
         break;
       case 'line':
         this.instance = new ChartLineClass();
+        break;
+      case 'donut':
+        this.instance = new ChartDonutClass();
         break;
       default:
         this.instance = new ChartColumnClass();

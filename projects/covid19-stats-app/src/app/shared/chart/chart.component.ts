@@ -75,6 +75,17 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.isChartSet = true;
   }
 
+  private setChartData(): void {
+    if (!this.isChartSet) {
+      this.setChart();
+    }
+    this.chart.setData(this.data);
+
+    console.group('Update chart data');
+    console.log('data', this.data);
+    console.groupEnd();
+  }
+
   private chartArgumentReady(flag: IChartArgumentReadyFlag): void {
     if (this.isChartSet) {
       return;
@@ -82,23 +93,15 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     this.chartArgumentsReady[flag] = true;
     if (Object.values(this.chartArgumentsReady).reduce((a, b) => a && b)) {
+      this.setChart();
+
       console.group('Set chart');
       console.log('options', this.options);
       console.log('data', this.data);
       console.log('chartDiv', this.chartDiv);
+      console.log('chart', this.chart);
       console.groupEnd();
-      this.setChart();
     }
   }
 
-  private setChartData(): void {
-    if (!this.isChartSet) {
-      this.setChart();
-    }
-    console.group('Update chart data');
-    console.log('data', this.data);
-    console.groupEnd();
-
-    this.chart.setData(this.data);
-  }
 }

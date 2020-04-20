@@ -2,6 +2,7 @@ import { IChartOptions, IChartData } from '../chart';
 import { IChartPie } from './pie/chart-pie';
 import { IChartColumn } from './column/chart-column';
 import { IChartLine } from './line/chart-line';
+import { IChartDonut } from './donut/chart-donut';
 
 export interface IChartType {
   instance: IChartTypeInstance;
@@ -34,9 +35,11 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
 export type IChartOptionType = 'pie'
   | 'column'
   | 'line'
+  | 'donut'
   ;
 
 export type IChart = IChartPie
   | IChartColumn
   | IChartLine
+  | IChartDonut
   ;
