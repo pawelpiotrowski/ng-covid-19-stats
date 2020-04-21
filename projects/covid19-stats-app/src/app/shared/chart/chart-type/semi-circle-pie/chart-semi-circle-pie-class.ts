@@ -1,7 +1,6 @@
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
-import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-am4core.useTheme(am4themes_animated);
+import am4themes from '@amcharts/amcharts4/themes/material';
 
 import { IChartData, IChartOptions } from '../../chart';
 import { IChartTypeInstance } from '../chart-type';
@@ -11,6 +10,7 @@ export class ChartSemiCirclePieClass implements IChartTypeInstance {
   public chart: IChartSemiCirclePie;
 
   public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
+    am4core.useTheme(am4themes);
     const chart = am4core.create(element, am4charts.PieChart);
 
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
