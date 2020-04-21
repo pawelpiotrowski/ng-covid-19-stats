@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import isNil from 'lodash-es/isNil';
 import isObject from 'lodash-es/isObject';
+import isNumber from 'lodash-es/isNumber';
 
 import { IChartArgumentsReady, IChartOptions, IChartData, IChartArgumentReadyFlag } from './chart';
 import { ChartTypeClass } from './chart-type/chart-type-class';
@@ -25,12 +26,14 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() options: IChartOptions;
   @Input() data: IChartData;
   @ViewChild('chart') chartDiv: ElementRef;
-
+  public isChartSet = false;
   private chart: IChartType;
-  private chartArgumentsReady: IChartArgumentsReady = { data: false, options: false, element: false };
-  private isChartSet = false;
+  private chartArgumentsReady: IChartArgumentsReady;
+  private delayTimer: number;
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone) {
+    this.chartArgumentsReady = { data: false, options: false, element: false };
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const { currentValue: optionsCurrentValue, previousValue: optionsPreviousValue } = changes.options;
@@ -51,10 +54,15 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.chartArgumentReady('element');
+    setTimeout(() => { // https://blog.angular-university.io/angular-debugging/
+      this.chartArgumentReady('element');
+    });
   }
 
   ngOnDestroy() {
+    if (this.delayTimer) {
+      clearTimeout(this.delayTimer);
+    }
     if (!this.isChartSet) {
       return;
     }
@@ -67,12 +75,19 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (this.isChartSet) {
       return;
     }
+    const setChart = () => {
+      this.zone.runOutsideAngular(() => {
+        this.chart = new ChartTypeClass();
+        this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
+      });
+      this.isChartSet = true;
+    };
 
-    this.zone.runOutsideAngular(() => {
-      this.chart = new ChartTypeClass();
-      this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
-    });
-    this.isChartSet = true;
+    if (isNumber(this.options.delayRenderMs)) {
+      this.delayTimer = window.setTimeout(setChart, this.options.delayRenderMs);
+      return;
+    }
+    setChart();
   }
 
   private setChartData(): void {
@@ -80,10 +95,6 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.setChart();
     }
     this.chart.setData(this.data);
-
-    console.group('Update chart data');
-    console.log('data', this.data);
-    console.groupEnd();
   }
 
   private chartArgumentReady(flag: IChartArgumentReadyFlag): void {
@@ -94,13 +105,6 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.chartArgumentsReady[flag] = true;
     if (Object.values(this.chartArgumentsReady).reduce((a, b) => a && b)) {
       this.setChart();
-
-      console.group('Set chart');
-      console.log('options', this.options);
-      console.log('data', this.data);
-      console.log('chartDiv', this.chartDiv);
-      console.log('chart', this.chart);
-      console.groupEnd();
     }
   }
 
