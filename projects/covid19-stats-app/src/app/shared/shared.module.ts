@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 
 import { StatisticCardComponent } from './statistic-card/statistic-card.component';
@@ -28,6 +29,7 @@ import { ChartCardComponent } from './chart-card/chart-card.component';
     FlexLayoutModule,
     MatCardModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     RouterModule
   ]
 })
