@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { IStatisticCard, IStatisticCardStyleEnum } from '../../shared/statistic-card/statistic-card';
 import { DataService } from '../../core/services/data/data.service';
 import { IDataGlobalStats } from '../../core/services/data/data';
-import { IChartOptions } from '../../shared/chart/chart';
+import { IChartOptions, IChartData } from '../../shared/chart/chart';
 
 @Component({
   selector: 'cvd-dashboard',
@@ -13,16 +13,17 @@ import { IChartOptions } from '../../shared/chart/chart';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnDestroy, OnInit {
-  public globalStats: IStatisticCard[];
+  public globalStatsCards: IStatisticCard[];
   public chartPieOptions: IChartOptions;
-  public chartColumnOptions: IChartOptions;
-  public chartLineOptions: IChartOptions;
-  public chartDonutOptions: IChartOptions;
-  public chartSemiCirclePieOptions: IChartOptions;
-  public chartFunnelOptions: IChartOptions;
+  public chartPieData: IChartData;
   public chartMapWithBubblesOptions: IChartOptions;
-  private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
+  public chartMapWithBubblesData: IChartData;
 
+  public chartColumn1Options: IChartOptions;
+  public chartColumn2Options: IChartOptions;
+  public chartColumn3Options: IChartOptions;
+
+  private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
   constructor(private data: DataService) {
     this.destroySubscriptions$ = new Subject();
   }
@@ -42,9 +43,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
     if (data === null) {
       return;
     }
-    const { ill, infected, deaths, recovered } = data;
+    const { ill, infected, deaths, recovered, allStats } = data;
 
-    this.globalStats = [
+    this.globalStatsCards = [
       {
         label: 'Infected',
         style: IStatisticCardStyleEnum.warn,
@@ -67,13 +68,40 @@ export class DashboardComponent implements OnDestroy, OnInit {
       }
     ];
 
-    this.chartPieOptions = { type: 'pie' };
-    this.chartColumnOptions = { type: 'column' };
-    this.chartLineOptions = { type: 'line' };
-    this.chartDonutOptions = { type: 'donut' };
-    this.chartSemiCirclePieOptions = { type: 'semiCirclePie' };
-    this.chartFunnelOptions = { type: 'funnel' };
-    this.chartMapWithBubblesOptions = { type: 'mapWithBubbles' };
+    this.chartPieOptions = {
+      type: 'pie',
+      settings: {
+        dataFieldsValue: 'value',
+        dataFieldsCategory: 'label',
+        colorList: ['#ef5350', '#66bb6a', '#29b6f6']
+      }
+    };
+    this.chartPieData = { payload: this.globalStatsCards.slice(1) };
+
+    this.chartMapWithBubblesOptions = {
+      type: 'mapWithBubbles',
+      settings: {
+        dataFieldsValue: 'value',
+        dataFieldsCategory: 'code'
+      },
+      delayRenderMs: 4000
+    };
+    const mapData = allStats
+      .map((stat) => {
+        return {
+          code: stat.code,
+          name: stat.name,
+          color: '#ffca28',
+          value: stat.latest_data.confirmed
+        };
+      })
+      .filter((stat) => stat.value > 0);
+
+    this.chartMapWithBubblesData = { payload: mapData };
+
+    this.chartColumn1Options = { type: 'column', delayRenderMs: 600 };
+    this.chartColumn2Options = { type: 'column', delayRenderMs: 1600 };
+    this.chartColumn3Options = { type: 'column', delayRenderMs: 3200 };
   }
 
 }
