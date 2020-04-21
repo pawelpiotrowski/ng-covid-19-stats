@@ -46,8 +46,9 @@ export class DataService {
     const infected = this.reduceGlobalStatsPayloadToLatestNumberOf(payload, 'confirmed');
     const recovered = this.reduceGlobalStatsPayloadToLatestNumberOf(payload, 'recovered');
     const ill = infected - deaths - recovered;
+    const allStats = payload.data;
 
-    this.globalStats$.next({ deaths, infected, recovered, ill });
+    this.globalStats$.next({ deaths, infected, recovered, ill, allStats });
   }
 
   private reduceGlobalStatsPayloadToLatestNumberOf(
