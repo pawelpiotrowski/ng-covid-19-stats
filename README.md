@@ -46,26 +46,26 @@ Build steps:
 
 1. Create a workspace for ng-stats apps
 
-npx -p @angular/cli ng new ng-stats --create-application false --strict
+`npx -p @angular/cli ng new ng-stats --create-application false --strict`
 
 2. Create covid19-stats-app application (set components name prefix to "cvd", use scss and routing)
 
-cd ng-stats
-npx ng g application covid19-stats-app --prefix cvd --style scss --routing
+`cd ng-stats`
+`npx ng g application covid19-stats-app --prefix cvd --style scss --routing`
 
 ** add initial scaffolding for workspace and project **
 
 3. Add angular material
 
-npx ng add @angular/material
+`npx ng add @angular/material`
 
 4. Add custom themes
 
-cd projects/covid19-stats-app/src
-mkdir themes && cd "$_"
-touch default-theme.scss
-touch light-theme.scss
-touch dark-theme.scss
+`cd projects/covid19-stats-app/src`
+`mkdir themes && cd "$_"`
+`touch default-theme.scss`
+`touch light-theme.scss`
+`touch dark-theme.scss`
 
 5. Add npx to package json scripts
 
@@ -73,19 +73,19 @@ touch dark-theme.scss
 
 6. Add webpack bundle analyzer
 
-npm i -D webpack-bundle-analyzer
+`npm i -D webpack-bundle-analyzer`
 
 ** add webpack bundle analyzer **
 
 7. Clean up app.component and add core module
 
-npx ng g m core
+`npx ng g m core`
 
 ** add core module **
 
 8. Add core layout
 
-npx ng g c core/layout/main-layout
+`npx ng g c core/layout/main-layout`
 
 ** add main layout core component **
 
@@ -95,13 +95,13 @@ npx ng g c core/layout/main-layout
 
 10. Add dashboard feature and app routing (lazy feature)
 
-npx ng g m features/dashboard --route dashboard --module app.module.ts
+`npx ng g m features/dashboard --route dashboard --module app.module.ts`
 
 ** add dashboard feature and app routing **
 
 11. Add about feature (lazy feature)
 
-npx ng g m features/about --route about --module app.module.ts
+`npx ng g m features/about --route about --module app.module.ts`
 
 ** add about feature and route **
 
@@ -111,12 +111,12 @@ npx ng g m features/about --route about --module app.module.ts
 
 13. Add shared module
 
-npx ng g m shared
+`npx ng g m shared`
 
 ** add shared module **
 
 14. Add flex layout
 
-npm i -s @angular/flex-layout
+`npm i -s @angular/flex-layout`
 
 ** add flex layout **

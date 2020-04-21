@@ -3,6 +3,7 @@ import { IChartPie } from './pie/chart-pie';
 import { IChartColumn } from './column/chart-column';
 import { IChartLine } from './line/chart-line';
 import { IChartDonut } from './donut/chart-donut';
+import { IChartSemiCirclePie } from './semi-circle-pie/chart-semi-circle-pie';
 
 export interface IChartType {
   instance: IChartTypeInstance;
@@ -36,10 +37,12 @@ export type IChartOptionType = 'pie'
   | 'column'
   | 'line'
   | 'donut'
+  | 'semiCirclePie'
   ;
 
 export type IChart = IChartPie
   | IChartColumn
   | IChartLine
   | IChartDonut
+  | IChartSemiCirclePie
   ;
