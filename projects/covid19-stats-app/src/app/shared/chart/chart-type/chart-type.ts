@@ -5,6 +5,7 @@ import { IChartLine } from './line/chart-line';
 import { IChartDonut } from './donut/chart-donut';
 import { IChartSemiCirclePie } from './semi-circle-pie/chart-semi-circle-pie';
 import { IChartFunnel } from './funnel/chart-funnel';
+import { IChartMapWithBubbles } from './map-with-bubbles/chart-map-with-bubbles';
 
 export interface IChartType {
   instance: IChartTypeInstance;
@@ -19,20 +20,10 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
   chart: IChart;
 }
 
-/* amChart types */
-// PieChart
-// GaugeChart
-// RadarChart
-// XYChart (Column, Line)
-// SerialChart
-// SlicedChart
-// FlowDiagram
-// SankeyDiagram
-// ChordDiagram
-// TreeMap
-// PieChart3D
-// XYChart3D (Column 3D)
-/* */
+/**
+ * amChart types
+ * https://www.amcharts.com/demos/#chart-types
+ */
 
 export type IChartOptionType = 'pie'
   | 'column'
@@ -40,7 +31,8 @@ export type IChartOptionType = 'pie'
   | 'donut'
   | 'semiCirclePie'
   | 'funnel'
-  ;
+  | 'mapWithBubbles'
+;
 
 export type IChart = IChartPie
   | IChartColumn
@@ -48,4 +40,5 @@ export type IChart = IChartPie
   | IChartDonut
   | IChartSemiCirclePie
   | IChartFunnel
-  ;
+  | IChartMapWithBubbles
+;

@@ -6,6 +6,7 @@ import { ChartLineClass } from './line/chart-line-class';
 import { ChartDonutClass } from './donut/chart-donut-class';
 import { ChartSemiCirclePieClass } from './semi-circle-pie/chart-semi-circle-pie-class';
 import { ChartFunnelClass } from './funnel/chart-funnel-class';
+import { ChartMapWithBubblesClass } from './map-with-bubbles/chart-map-with-bubbles-class';
 
 export class ChartTypeClass implements IChartType {
   public instance: IChartTypeInstance;
@@ -29,6 +30,9 @@ export class ChartTypeClass implements IChartType {
         break;
       case 'funnel':
         this.instance = new ChartFunnelClass();
+        break;
+      case 'mapWithBubbles':
+        this.instance = new ChartMapWithBubblesClass();
         break;
       default:
         this.instance = new ChartColumnClass();

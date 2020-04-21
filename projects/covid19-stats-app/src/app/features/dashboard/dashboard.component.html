@@ -7,20 +7,22 @@
   <div class="dashboard__charts">
     <div class="dashboard__charts__row--50" fxLayout="row" fxLayoutAlign="stretch">
       <div fxFlex="50">
-        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartLineOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartMapWithBubblesOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
       <div fxFlex="50">
-        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartPieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
     </div>
     <div class="dashboard__charts__row--50" fxLayout="row" fxLayoutAlign="stretch">
       <div fxFlex="33">
-        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartSemiCirclePieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
       <div fxFlex="33">
-        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartFunnelOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
-      <div fxFlex="33"></div>
+      <div fxFlex="33">
+        <cvd-chart-card [chartData]="globalStats" [chartOptions]="chartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+      </div>
     </div>
   </div>
 </div>

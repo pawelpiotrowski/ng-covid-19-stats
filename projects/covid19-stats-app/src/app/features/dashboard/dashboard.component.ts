@@ -20,6 +20,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   public chartDonutOptions: IChartOptions;
   public chartSemiCirclePieOptions: IChartOptions;
   public chartFunnelOptions: IChartOptions;
+  public chartMapWithBubblesOptions: IChartOptions;
   private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private data: DataService) {
@@ -72,6 +73,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.chartDonutOptions = { type: 'donut' };
     this.chartSemiCirclePieOptions = { type: 'semiCirclePie' };
     this.chartFunnelOptions = { type: 'funnel' };
+    this.chartMapWithBubblesOptions = { type: 'mapWithBubbles' };
   }
 
 }
