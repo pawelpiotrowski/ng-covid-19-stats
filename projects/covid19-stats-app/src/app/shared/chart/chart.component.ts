@@ -83,6 +83,15 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.isChartSet = true;
     };
 
+    const worker = new Worker('./chart-type/chart-type-worker.worker', {
+      type: 'module'
+    });
+
+    worker.onmessage = ({ data }) => {
+      console.log('From Web Worker:', data);
+    };
+    worker.postMessage({ hello: 'worker' });
+
     if (isNumber(this.options.delayRenderMs)) {
       this.delayTimer = window.setTimeout(setChart, this.options.delayRenderMs);
       return;

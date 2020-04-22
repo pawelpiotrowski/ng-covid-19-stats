@@ -5,7 +5,8 @@ export const globalStatsUpdateDataMock: IDataGlobalStats = {
   deaths: 10,
   ill: 990,
   infected: 3000,
-  recovered: 2000
+  recovered: 2000,
+  allStats: [],
 };
 
 export class DataServiceMock {
