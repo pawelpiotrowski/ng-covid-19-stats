@@ -15,8 +15,15 @@
       "prefix": "cvd",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.js",
+              "replaceDuplicatePlugins": true,
+              "mergeStrategies": {
+                "externals": "prepend"
+              }
+            },
             "outputPath": "dist/covid19-stats-app",
             "index": "projects/covid19-stats-app/src/index.html",
             "main": "projects/covid19-stats-app/src/main.ts",
