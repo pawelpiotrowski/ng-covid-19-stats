@@ -2,13 +2,19 @@ import Chart from 'chart.js';
 
 import { IChartData, IChartOptions } from '../../chart';
 import { IChartTypeInstance } from '../chart-type';
-import { IChartColumn } from './chart-column';
+
+export type IChartColumn = Chart;
 
 export class ChartColumnClass implements IChartTypeInstance {
   public chart: IChartColumn;
 
-  public create(element: HTMLCanvasElement, options: IChartOptions, data: IChartData): void {
-    this.chart = new Chart(element, {
+  public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
+    const chartCanvas = element.querySelector('canvas');
+
+    if (!chartCanvas) {
+      return;
+    }
+    this.chart = new Chart(chartCanvas, {
       type: 'bar',
       data: {
           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],

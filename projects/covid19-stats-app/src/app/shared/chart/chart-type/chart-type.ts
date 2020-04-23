@@ -1,10 +1,12 @@
 import { IChartOptions, IChartData } from '../chart';
-import { IChartPie } from './pie/chart-pie';
-import { IChartColumn } from './column/chart-column';
+import { IChartPie } from './pie/chart-pie-class';
+import { IChartColumn } from './column/chart-column-class';
+import { IHighchartColumn } from './highchart-column/highchart-column-class';
+import { IHighchartPie } from './highchart-pie/highchart-pie-class';
 
 export interface IChartType {
   instance: IChartTypeInstance;
-  create: (element: HTMLCanvasElement, options: IChartOptions, data: IChartData) => void;
+  create: (element: HTMLElement, options: IChartOptions, data: IChartData) => void;
   destroy: () => void;
   setData: (data: IChartData) => void;
 }
@@ -15,15 +17,14 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
   chart: IChart;
 }
 
-/**
- * amChart types
- * https://www.amcharts.com/demos/#chart-types
- */
-
 export type IChartOptionType = 'pie'
   | 'column'
+  | 'highchartColumn'
+  | 'highchartPie'
 ;
 
 export type IChart = IChartPie
   | IChartColumn
+  | IHighchartColumn
+  | IHighchartPie
 ;
