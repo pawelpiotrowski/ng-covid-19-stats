@@ -7,12 +7,13 @@ import {
   OnChanges,
   ViewChild,
   SimpleChanges,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import isNil from 'lodash-es/isNil';
 import isObject from 'lodash-es/isObject';
-import isNumber from 'lodash-es/isNumber';
-import debounce from 'lodash-es/debounce';
+import { asapScheduler, fromEvent, Subject } from 'rxjs';
+import { throttleTime, takeUntil } from 'rxjs/operators';
 
 import { IChartArgumentsReady, IChartOptions, IChartData, IChartArgumentReadyFlag } from './chart';
 import { ChartTypeClass } from './chart-type/chart-type-class';
@@ -23,15 +24,14 @@ import { IChartType } from './chart-type/chart-type';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @Input() options: IChartOptions;
   @Input() data: IChartData;
   @ViewChild('chartDiv') chartDiv: ElementRef;
   public isChartSet = false;
   private chart: IChartType;
   private chartArgumentsReady: IChartArgumentsReady;
-  private delayTimer: number;
-  private resize: any;
+  private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private zone: NgZone) {
     this.chartArgumentsReady = { data: false, options: false, element: false };
@@ -55,26 +55,25 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
+  ngOnInit(): void {
+    fromEvent(window, 'resize').pipe(throttleTime(200), takeUntil(this.destroySubscriptions$))
+      .subscribe(this.resizeHandler.bind(this));
+  }
+
   ngAfterViewInit(): void {
-    setTimeout(() => { // https://blog.angular-university.io/angular-debugging/
+    asapScheduler.schedule(() => { // https://blog.angular-university.io/angular-debugging/
       this.chartArgumentReady('element');
-      this.resize = window.addEventListener('resize', debounce(() => {
-        console.log('RESIZE!');
-        this.chart.destroy();
-        this.isChartSet = false;
-        this.setChart();
-      }, 200));
     });
   }
 
   ngOnDestroy() {
-    if (this.delayTimer) {
-      clearTimeout(this.delayTimer);
-    }
+    this.destroySubscriptions$.next(true);
+    this.destroySubscriptions$.unsubscribe();
+
     if (!this.isChartSet) {
       return;
     }
-    window.removeEventListener('resize', this.resize);
+
     this.zone.runOutsideAngular(() => {
       this.chart.destroy();
     });
@@ -84,19 +83,12 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (this.isChartSet) {
       return;
     }
-    const setChart = () => {
-      this.zone.runOutsideAngular(() => {
-        this.chart = new ChartTypeClass();
-        this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
-      });
-      this.isChartSet = true;
-    };
 
-    if (isNumber(this.options.delayRenderMs)) {
-      this.delayTimer = window.setTimeout(setChart, this.options.delayRenderMs);
-      return;
-    }
-    setChart();
+    this.zone.runOutsideAngular(() => {
+      this.chart = new ChartTypeClass();
+      this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
+    });
+    this.isChartSet = true;
   }
 
   private setChartData(): void {
@@ -115,6 +107,12 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (Object.values(this.chartArgumentsReady).reduce((a, b) => a && b)) {
       this.setChart();
     }
+  }
+
+  private resizeHandler(): void {
+    this.chart.destroy();
+    this.isChartSet = false;
+    this.setChart();
   }
 
 }

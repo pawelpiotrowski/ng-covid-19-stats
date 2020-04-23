@@ -16,45 +16,31 @@ export class HighchartPieClass implements IChartTypeInstance {
 
     this.chart = Highcharts.chart({
       chart: {
-          plotBackgroundColor: undefined,
-          plotBorderWidth: undefined,
-          plotShadow: false,
-          type: 'pie',
-          renderTo: element
+        plotBackgroundColor: undefined,
+        plotBorderWidth: undefined,
+        plotShadow: false,
+        type: 'pie',
+        renderTo: element
       },
       tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        pointFormat: '<b>{point.percentage:.1f}%</b>'
       },
       plotOptions: {
-          pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                  enabled: false
-              },
-              showInLegend: true
-          }
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: false
+          },
+          showInLegend: true
+        }
       },
-      series: [({
-          name: 'Brands',
-          colorByPoint: true,
-          data: [{
-              name: 'Internet Explorer',
-              y: 11.84
-          }, {
-              name: 'Firefox',
-              y: 10.85
-          }, {
-              name: 'Edge',
-              y: 4.67
-          }, {
-              name: 'Safari',
-              y: 4.18
-          }, {
-              name: 'Other',
-              y: 7.05
-          }]
-      }) as any]
+      series: [{
+        name: '',
+        type: 'pie',
+        colorByPoint: true,
+        data: data.payload
+      }]
     });
   }
 
