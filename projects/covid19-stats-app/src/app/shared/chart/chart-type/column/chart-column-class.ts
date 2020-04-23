@@ -1,6 +1,4 @@
-import * as am4core from '@amcharts/amcharts4/core';
-import * as am4charts from '@amcharts/amcharts4/charts';
-import am4themes from '@amcharts/amcharts4/themes/material';
+import Chart from 'chart.js';
 
 import { IChartData, IChartOptions } from '../../chart';
 import { IChartTypeInstance } from '../chart-type';
@@ -9,75 +7,47 @@ import { IChartColumn } from './chart-column';
 export class ChartColumnClass implements IChartTypeInstance {
   public chart: IChartColumn;
 
-  public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
-    am4core.useTheme(am4themes);
-    // Create chart instance
-    const chart = am4core.create(element, am4charts.XYChart);
-
-    // Add data
-    chart.data = [{
-      country: 'USA',
-      visits: 2025
-    }, {
-      country: 'Chi',
-      visits: 1882
-    }, {
-      country: 'Jap',
-      visits: 1809
-    }, {
-      country: 'Ger',
-      visits: 1322
-    }, {
-      country: 'UK',
-      visits: 1122
-    }, {
-      country: 'Fra',
-      visits: 1114
-    }, {
-      country: 'Ind',
-      visits: 984
-    }, {
-      country: 'Spa',
-      visits: 711
-    }, {
-      country: 'Net',
-      visits: 665
-    }, {
-      country: 'Rus',
-      visits: 580
-    }, {
-      country: 'SKor',
-      visits: 443
-    }, {
-      country: 'Can',
-      visits: 441
-    }, {
-      country: 'Bra',
-      visits: 395
-    }];
-
-    // Create axes
-
-    const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = 'country';
-    categoryAxis.renderer.grid.template.location = 0;
-    categoryAxis.renderer.minGridDistance = 30;
-
-    chart.yAxes.push(new am4charts.ValueAxis());
-
-    // Create series
-    const series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueY = 'visits';
-    series.dataFields.categoryX = 'country';
-    series.name = 'Visits';
-    series.columns.template.tooltipText = '{categoryX}: [bold]{valueY}[/]';
-    series.columns.template.fillOpacity = .8;
-
-    const columnTemplate = series.columns.template;
-    columnTemplate.strokeWidth = 2;
-    columnTemplate.strokeOpacity = 1;
-
-    this.chart = chart;
+  public create(element: HTMLCanvasElement, options: IChartOptions, data: IChartData): void {
+    this.chart = new Chart(element, {
+      type: 'bar',
+      data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+        animation: {
+          duration: 0 // general animation time
+        },
+        responsiveAnimationDuration: 0,
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+    });
   }
 
   public setData(data: IChartData): void {
@@ -85,6 +55,6 @@ export class ChartColumnClass implements IChartTypeInstance {
   }
 
   public destroy(): void {
-    this.chart.dispose();
+    this.chart.destroy();
   }
 }

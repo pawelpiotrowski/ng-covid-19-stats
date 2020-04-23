@@ -12,6 +12,7 @@ import {
 import isNil from 'lodash-es/isNil';
 import isObject from 'lodash-es/isObject';
 import isNumber from 'lodash-es/isNumber';
+import debounce from 'lodash-es/debounce';
 
 import { IChartArgumentsReady, IChartOptions, IChartData, IChartArgumentReadyFlag } from './chart';
 import { ChartTypeClass } from './chart-type/chart-type-class';
@@ -25,11 +26,12 @@ import { IChartType } from './chart-type/chart-type';
 export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() options: IChartOptions;
   @Input() data: IChartData;
-  @ViewChild('chart') chartDiv: ElementRef;
+  @ViewChild('chart') chartCanvas: ElementRef;
   public isChartSet = false;
   private chart: IChartType;
   private chartArgumentsReady: IChartArgumentsReady;
   private delayTimer: number;
+  private siki: any;
 
   constructor(private zone: NgZone) {
     this.chartArgumentsReady = { data: false, options: false, element: false };
@@ -56,6 +58,13 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   ngAfterViewInit(): void {
     setTimeout(() => { // https://blog.angular-university.io/angular-debugging/
       this.chartArgumentReady('element');
+      // this.siki = window.addEventListener('resize', debounce(() => {
+      //   console.log('RESIZE!!!!');
+      //   // this.chart.instance.chart.resize();
+      //   this.chart.destroy();
+      //   this.isChartSet = false;
+      //   this.setChart();
+      // }, 200));
     });
   }
 
@@ -66,8 +75,9 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (!this.isChartSet) {
       return;
     }
+    // window.removeEventListener('resize', this.siki);
     this.zone.runOutsideAngular(() => {
-      this.chart.destroy();
+      // this.chart.destroy();
     });
   }
 
@@ -78,19 +88,10 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     const setChart = () => {
       this.zone.runOutsideAngular(() => {
         this.chart = new ChartTypeClass();
-        this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
+        this.chart.create(this.chartCanvas.nativeElement as HTMLCanvasElement, this.options, this.data);
       });
       this.isChartSet = true;
     };
-
-    const worker = new Worker('./chart-type/chart-type-worker.worker', {
-      type: 'module'
-    });
-
-    worker.onmessage = ({ data }) => {
-      console.log('From Web Worker:', data);
-    };
-    worker.postMessage({ hello: 'worker' });
 
     if (isNumber(this.options.delayRenderMs)) {
       this.delayTimer = window.setTimeout(setChart, this.options.delayRenderMs);

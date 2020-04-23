@@ -1,3 +1,3 @@
-import { XYChart } from '@amcharts/amcharts4/charts';
+import Chart from 'chart.js';
 
-export type IChartColumn = XYChart;
+export type IChartColumn = Chart;

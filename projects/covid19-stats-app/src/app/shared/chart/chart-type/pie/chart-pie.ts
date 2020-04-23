@@ -1,3 +1,3 @@
-import { PieChart } from '@amcharts/amcharts4/charts';
+import Chart from 'chart.js';
 
-export type IChartPie = PieChart;
+export type IChartPie = Chart;
