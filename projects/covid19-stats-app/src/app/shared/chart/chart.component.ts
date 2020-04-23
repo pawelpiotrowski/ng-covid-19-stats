@@ -26,7 +26,7 @@ import { IChartType } from './chart-type/chart-type';
 export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() options: IChartOptions;
   @Input() data: IChartData;
-  @ViewChild('chart') chartCanvas: ElementRef;
+  @ViewChild('chart') chartDiv: ElementRef;
   public isChartSet = false;
   private chart: IChartType;
   private chartArgumentsReady: IChartArgumentsReady;
@@ -88,7 +88,7 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     const setChart = () => {
       this.zone.runOutsideAngular(() => {
         this.chart = new ChartTypeClass();
-        this.chart.create(this.chartCanvas.nativeElement as HTMLCanvasElement, this.options, this.data);
+        this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
       });
       this.isChartSet = true;
     };

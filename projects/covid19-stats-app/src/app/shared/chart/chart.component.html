@@ -1,4 +1,6 @@
-<div #chart class="chart-div"></div>
+<div #chartDiv class="chart-div">
+  <canvas></canvas>
+</div>
 <div *ngIf="!isChartSet" style="position: absolute; width: 100%; height: 100%; top: 0;">
   <div style="position: absolute; width: 32px; height: 32px; top: 50%; margin: -16px 0 0 -16px; left: 50%;">
     <mat-spinner diameter="32"></mat-spinner>
