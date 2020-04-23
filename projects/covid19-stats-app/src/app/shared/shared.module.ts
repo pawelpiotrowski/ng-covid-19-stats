@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { StatisticCardComponent } from './statistic-card/statistic-card.component';
 import { ChartComponent } from './chart/chart.component';
@@ -23,8 +22,7 @@ import { ChartCardComponent } from './chart-card/chart-card.component';
     RouterModule,
     StatisticCardComponent,
     ChartComponent,
-    ChartCardComponent,
-    NgxChartsModule
+    ChartCardComponent
   ],
   imports: [
     CommonModule,

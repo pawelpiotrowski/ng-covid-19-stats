@@ -9,8 +9,10 @@ export class HighchartColumnClass implements IChartTypeInstance {
   public chart: IHighchartColumn;
 
   public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
+    console.group('Highchart Column');
     console.log('options', options);
     console.log('data', data);
+    console.groupEnd();
 
     this.chart = Highcharts.chart({
       chart: {

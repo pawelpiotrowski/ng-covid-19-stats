@@ -9,8 +9,10 @@ export class HighchartPieClass implements IChartTypeInstance {
   public chart: IHighchartPie;
 
   public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
+    console.group('Highchart Pie');
     console.log('options', options);
     console.log('data', data);
+    console.groupEnd();
 
     this.chart = Highcharts.chart({
       chart: {
@@ -19,9 +21,6 @@ export class HighchartPieClass implements IChartTypeInstance {
           plotShadow: false,
           type: 'pie',
           renderTo: element
-      },
-      title: {
-          text: 'Browser market shares in January, 2018'
       },
       tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

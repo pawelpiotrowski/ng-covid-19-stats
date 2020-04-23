@@ -31,7 +31,7 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   private chart: IChartType;
   private chartArgumentsReady: IChartArgumentsReady;
   private delayTimer: number;
-  private siki: any;
+  private resize: any;
 
   constructor(private zone: NgZone) {
     this.chartArgumentsReady = { data: false, options: false, element: false };
@@ -58,13 +58,12 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   ngAfterViewInit(): void {
     setTimeout(() => { // https://blog.angular-university.io/angular-debugging/
       this.chartArgumentReady('element');
-      // this.siki = window.addEventListener('resize', debounce(() => {
-      //   console.log('RESIZE!!!!');
-      //   // this.chart.instance.chart.resize();
-      //   this.chart.destroy();
-      //   this.isChartSet = false;
-      //   this.setChart();
-      // }, 200));
+      this.resize = window.addEventListener('resize', debounce(() => {
+        console.log('RESIZE!');
+        this.chart.destroy();
+        this.isChartSet = false;
+        this.setChart();
+      }, 200));
     });
   }
 
@@ -75,9 +74,9 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (!this.isChartSet) {
       return;
     }
-    // window.removeEventListener('resize', this.siki);
+    window.removeEventListener('resize', this.resize);
     this.zone.runOutsideAngular(() => {
-      // this.chart.destroy();
+      this.chart.destroy();
     });
   }
 

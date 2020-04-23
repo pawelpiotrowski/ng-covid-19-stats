@@ -7,31 +7,18 @@
   <div class="dashboard__charts">
     <div class="dashboard__charts__row--50" fxLayout="row" fxLayoutAlign="stretch">
       <div fxFlex="50">
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="chartPieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartMapOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
       <div fxFlex="50">
-        <ngx-charts-bar-vertical-stacked
-          *ngIf="ngxChartOptions"
-          [view]="ngxChartOptions.view"
-          [scheme]="ngxChartOptions.colorScheme"
-          [results]="ngxChartData.multi"
-          [gradient]="ngxChartOptions.gradient"
-          [xAxis]="ngxChartOptions.showXAxis"
-          [yAxis]="ngxChartOptions.showYAxis"
-          [legend]="ngxChartOptions.showLegend"
-          [showXAxisLabel]="ngxChartOptions.showXAxisLabel"
-          [showYAxisLabel]="ngxChartOptions.showYAxisLabel"
-          [xAxisLabel]="ngxChartOptions.xAxisLabel"
-          [yAxisLabel]="ngxChartOptions.yAxisLabel">
-        </ngx-charts-bar-vertical-stacked>
+        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartPieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
     </div>
     <div class="dashboard__charts__row--50" fxLayout="row" fxLayoutAlign="stretch">
       <div fxFlex>
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="chartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
       <div fxFlex>
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartPieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
       <div fxFlex>
         <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>

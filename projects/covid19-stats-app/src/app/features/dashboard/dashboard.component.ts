@@ -14,15 +14,11 @@ import { IChartOptions, IChartData } from '../../shared/chart/chart';
 })
 export class DashboardComponent implements OnDestroy, OnInit {
   public globalStatsCards: IStatisticCard[];
-  public chartPieOptions: IChartOptions;
   public chartPieData: IChartData;
 
-  public chartColumnOptions: IChartOptions;
   public highchartPieOptions: IChartOptions;
   public highchartColumnOptions: IChartOptions;
-
-  public ngxChartOptions: any;
-  public ngxChartData: any;
+  public highchartMapOptions: IChartOptions;
 
   private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
   constructor(private data: DataService) {
@@ -69,14 +65,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
       }
     ];
 
-    this.chartPieOptions = {
-      type: 'pie',
-      settings: {
-        dataFieldsValue: 'value',
-        dataFieldsCategory: 'label',
-        colorList: ['#ef5350', '#66bb6a', '#29b6f6']
-      }
-    };
     this.chartPieData = { payload: this.globalStatsCards.slice(1) };
 
     // const mapData = allStats
@@ -90,138 +78,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
     //   })
     //   .filter((stat) => stat.value > 0);
 
-    this.chartColumnOptions = { type: 'column' };
-    this.highchartPieOptions = { type: 'highchartPie' };
+    this.highchartPieOptions = {
+      type: 'highchartPie',
+      settings: {
+        dataFieldsValue: 'value',
+        dataFieldsCategory: 'label',
+        colorList: ['#ef5350', '#66bb6a', '#29b6f6']
+      }
+    };
     this.highchartColumnOptions = { type: 'highchartColumn' };
-    this.setNgxChart();
-  }
-
-  private setNgxChart(): void {
-    this.ngxChartOptions = {
-      view: '',
-      showXAxis: true,
-      showYAxis: true,
-      gradient: false,
-      showLegend: true,
-      showXAxisLabel: true,
-      xAxisLabel: 'Country',
-      showYAxisLabel: true,
-      yAxisLabel: 'Sales',
-      timeline: true,
-      colorScheme: {
-        domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB']
-      },
-      // showLabels: true, // pie
-    };
-
-    this.ngxChartData = {
-      single: [
-        {
-          name: 'China',
-          value: 2243772
-        },
-        {
-          name: 'USA',
-          value: 1126000
-        },
-        {
-          name: 'Norway',
-          value: 296215
-        },
-        {
-          name: 'Japan',
-          value: 257363
-        },
-        {
-          name: 'Germany',
-          value: 196750
-        },
-        {
-          name: 'France',
-          value: 204617
-        }
-      ],
-      multi: [
-        {
-          name: 'China',
-          series: [
-            {
-              name: '2018',
-              value: 2243772
-            },
-            {
-              name: '2017',
-              value: 1227770
-            }
-          ]
-        },
-        {
-          name: 'USA',
-          series: [
-            {
-              name: '2018',
-              value: 1126000
-            },
-            {
-              name: '2017',
-              value: 764666
-            }
-          ]
-        },
-        {
-          name: 'Norway',
-          series: [
-            {
-              name: '2018',
-              value: 296215
-            },
-            {
-              name: '2017',
-              value: 209122
-            }
-          ]
-        },
-        {
-          name: 'Japan',
-          series: [
-            {
-              name: '2018',
-              value: 257363
-            },
-            {
-              name: '2017',
-              value: 205350
-            }
-          ]
-        },
-        {
-          name: 'Germany',
-          series: [
-            {
-              name: '2018',
-              value: 196750
-            },
-            {
-              name: '2017',
-              value: 129246
-            }
-          ]
-        },
-        {
-          name: 'France',
-          series: [
-            {
-              name: '2018',
-              value: 204617
-            },
-            {
-              name: '2017',
-              value: 149797
-            }
-          ]
-        }
-      ]
-    };
+    this.highchartMapOptions = { type: 'highchartMap' };
   }
 
 }
