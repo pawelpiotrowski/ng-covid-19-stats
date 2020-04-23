@@ -18,6 +18,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
   public chartPieData: IChartData;
 
   public chartColumnOptions: IChartOptions;
+  public highchartPieOptions: IChartOptions;
+  public highchartColumnOptions: IChartOptions;
 
   public ngxChartOptions: any;
   public ngxChartData: any;
@@ -89,6 +91,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
     //   .filter((stat) => stat.value > 0);
 
     this.chartColumnOptions = { type: 'column' };
+    this.highchartPieOptions = { type: 'highchartPie' };
+    this.highchartColumnOptions = { type: 'highchartColumn' };
     this.setNgxChart();
   }
 

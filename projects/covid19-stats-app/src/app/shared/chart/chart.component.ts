@@ -26,7 +26,7 @@ import { IChartType } from './chart-type/chart-type';
 export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() options: IChartOptions;
   @Input() data: IChartData;
-  @ViewChild('chart') chartDiv: ElementRef;
+  @ViewChild('chartDiv') chartDiv: ElementRef;
   public isChartSet = false;
   private chart: IChartType;
   private chartArgumentsReady: IChartArgumentsReady;
