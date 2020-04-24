@@ -8,7 +8,8 @@ import {
   ViewChild,
   SimpleChanges,
   OnDestroy,
-  OnInit
+  OnInit,
+  SimpleChange
 } from '@angular/core';
 import isNil from 'lodash-es/isNil';
 import isObject from 'lodash-es/isObject';
@@ -38,25 +39,12 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { currentValue: optionsCurrentValue, previousValue: optionsPreviousValue } = changes.options;
-    const { currentValue: dataCurrentValue, previousValue: dataPreviousValue } = changes.data;
-
-    // this is data update
-    if (this.isChartSet && isObject(dataCurrentValue)) {
-      this.setChartData();
-      return;
-    }
-    // this is initial load collecting chart arguments
-    if (isNil(optionsPreviousValue) && isObject(optionsCurrentValue) && !this.isChartSet) {
-      this.chartArgumentReady('options');
-    }
-    if (isNil(dataPreviousValue) && isObject(dataCurrentValue) && !this.isChartSet) {
-      this.chartArgumentReady('data');
-    }
+    this.onDataChangesHandler(changes.data);
+    this.onOptionsChangesHandler(changes.options);
   }
 
   ngOnInit(): void {
-    fromEvent(window, 'resize').pipe(throttleTime(200), takeUntil(this.destroySubscriptions$))
+    fromEvent(window, 'resize').pipe(throttleTime(50), takeUntil(this.destroySubscriptions$))
       .subscribe(this.resizeHandler.bind(this));
   }
 
@@ -77,6 +65,40 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
     this.zone.runOutsideAngular(() => {
       this.chart.destroy();
     });
+  }
+
+  private onOptionsChangesHandler(options: SimpleChange): void {
+    if (isNil(options)) {
+      return;
+    }
+    const { currentValue: optionsCurrentValue, previousValue: optionsPreviousValue } = options;
+
+    // this is options update
+    // if (this.isChartSet && isObject(optionsCurrentValue)) {
+    //   this.updateChartOptions();
+    //   return;
+    // }
+
+    if (isNil(optionsPreviousValue) && isObject(optionsCurrentValue) && !this.isChartSet) {
+      this.chartArgumentReady('options');
+    }
+  }
+
+  private onDataChangesHandler(data: SimpleChange): void {
+    if (isNil(data)) {
+      return;
+    }
+    const { currentValue: dataCurrentValue, previousValue: dataPreviousValue } = data;
+
+    // this is data update
+    if (this.isChartSet && isObject(dataCurrentValue)) {
+      this.setChartData();
+      return;
+    }
+    // this is initial load collecting chart arguments
+    if (isNil(dataPreviousValue) && isObject(dataCurrentValue) && !this.isChartSet) {
+      this.chartArgumentReady('data');
+    }
   }
 
   private setChart(): void {

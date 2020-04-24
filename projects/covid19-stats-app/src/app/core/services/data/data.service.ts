@@ -3,10 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { BackendService } from '../backend/backend.service';
-import { IDataGlobalStatsUpdate, IDataGlobalStatsLatestProp } from './data';
+import { IDataGlobalStatsUpdate, IDataGlobalStatsLatestProp, IDataTimelineStatsUpdate } from './data';
 import {
   IBackendCountriesLatestStatsPayload,
-  IBackendCountryLatestStat
+  IBackendCountryLatestStat,
+  IBackendTimelinePayload
 } from '../backend/backend';
 
 @Injectable({
@@ -14,10 +15,13 @@ import {
 })
 export class DataService {
   private globalStats$: BehaviorSubject<IDataGlobalStatsUpdate>;
+  private timelineStats$: BehaviorSubject<IDataTimelineStatsUpdate>;
   private fetchingGlobalStats = false;
+  private fetchingTimelineStats = false;
 
   constructor(private backend: BackendService) {
     this.globalStats$ = new BehaviorSubject(null);
+    this.timelineStats$ = new BehaviorSubject(null);
   }
 
   public getGlobalStatsUpdates(): BehaviorSubject<IDataGlobalStatsUpdate> {
@@ -28,7 +32,15 @@ export class DataService {
     return this.globalStats$;
   }
 
-  private fetchGlobalStats(): void {
+  public getTimelineStatsUpdates(): BehaviorSubject<IDataTimelineStatsUpdate> {
+    // if observable has no value make call to fetch it first
+    if (this.timelineStats$.value === null) {
+      this.fetchTimelineStats();
+    }
+    return this.timelineStats$;
+  }
+
+  public fetchGlobalStats(): void {
     if (this.fetchingGlobalStats) {
       return;
     }
@@ -38,6 +50,19 @@ export class DataService {
       .subscribe((payload) => {
         this.fetchingGlobalStats = false;
         this.fetchGlobalStatsPayloadHandler(payload);
+      });
+  }
+
+  public fetchTimelineStats(): void {
+    if (this.fetchingTimelineStats) {
+      return;
+    }
+    this.fetchingTimelineStats = true;
+    this.backend.getTimelineStats()
+      .pipe(take(1))
+      .subscribe((payload) => {
+        this.fetchingTimelineStats = false;
+        this.fetchTimelineStatsPayloadHandler(payload);
       });
   }
 
@@ -57,5 +82,9 @@ export class DataService {
   ): number {
     return payload.data.map((d: IBackendCountryLatestStat) => d.latest_data[numberOf])
       .reduce((a: number, b: number) => a + b);
+  }
+
+  private fetchTimelineStatsPayloadHandler({ data }: IBackendTimelinePayload): void {
+    this.timelineStats$.next(data);
   }
 }

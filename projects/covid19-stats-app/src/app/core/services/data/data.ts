@@ -1,4 +1,4 @@
-import { IBackendCountryLatestStat } from '../backend/backend';
+import { IBackendCountryLatestStat, IBackendTimelineItem } from '../backend/backend';
 
 export interface IDataGlobalStats {
   deaths: number;
@@ -11,3 +11,7 @@ export interface IDataGlobalStats {
 export type IDataGlobalStatsUpdate = IDataGlobalStats | null;
 
 export type IDataGlobalStatsLatestProp = 'confirmed' | 'deaths' | 'recovered';
+
+export type IDataTimelineStats = IBackendTimelineItem[];
+
+export type IDataTimelineStatsUpdate = IDataTimelineStats | null;

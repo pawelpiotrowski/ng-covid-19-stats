@@ -1,10 +1,7 @@
 import * as Highcharts from 'highcharts/highmaps';
 import * as HC_map from 'highcharts/modules/map';
 
-import worldData from '../../../../core/services/data/mocks/world-population.json';
-import millerProjectionGeoJSON from '../../../../core/services/data/mocks/custom-world.json';
-
-
+import millerProjectionGeoJSON from './highchart-map-geo.json';
 import { IChartData, IChartOptions } from '../../chart';
 import { IChartTypeInstance } from '../chart-type';
 
@@ -28,61 +25,38 @@ export class HighchartMapClass implements IChartTypeInstance {
         map: 'custom/world'
       },
       title: {
-        text: 'Fixed tooltip with HTML'
+        text: ''
       },
-
       legend: {
-          title: {
-              text: 'Population density per km²',
-              style: {
-                  color: ( // theme
-                      Highcharts.defaultOptions &&
-                      Highcharts.defaultOptions.legend &&
-                      Highcharts.defaultOptions.legend.title &&
-                      Highcharts.defaultOptions.legend.title.style &&
-                      Highcharts.defaultOptions.legend.title.style.color
-                  ) || 'black'
-              }
-          }
+        enabled: false
       },
-
       mapNavigation: {
           enabled: true,
           buttonOptions: {
               verticalAlign: 'bottom'
           }
       },
-
-      tooltip: {
-          backgroundColor: 'none',
-          borderWidth: 0,
-          shadow: false,
-          useHTML: true,
-          padding: 0,
-          pointFormat: '<span class="f32"><span class="flag {point.properties.hc-key}">' +
-              '</span></span> {point.name}<br>' +
-              '<span style="font-size:30px">{point.value}/km²</span>',
-          positioner: () => {
-              return { x: 0, y: 250 };
-          }
-      },
-
       colorAxis: {
-          min: 1,
-          max: 1000,
-          type: 'logarithmic'
+          type: 'logarithmic',
+          minColor: '#fffcf4',
+          maxColor: '#f4b800',
       },
-
-      series: [{
-          data: worldData,
-          joinBy: ['iso-a3', 'code3'],
-          name: 'Population density',
-          states: {
-              hover: {
-                  color: '#a4edba'
-              }
+      series: [
+        {
+          type: 'map',
+          enableMouseTracking: false,
+        },
+        {
+          name: 'Total Infected',
+          type: 'mapbubble',
+          data: data.payload,
+          joinBy: ['iso-a2', 'code'],
+          minSize: 2,
+          maxSize: '10%',
+          tooltip: {
+            pointFormat: '{point.properties.name}: {point.z}'
           }
-      }] as any
+      }]
     });
   }
 

@@ -1,12 +1,7 @@
 import { IChartOptionType } from './chart-type/chart-type';
 
 export interface IChartOptions {
-  settings?: {
-    dataFieldsValue?: string;
-    dataFieldsCategory?: string;
-    colorList?: string[];
-  };
-  delayRenderMs?: number;
+  categories?: string[];
   type: IChartOptionType;
 }
 

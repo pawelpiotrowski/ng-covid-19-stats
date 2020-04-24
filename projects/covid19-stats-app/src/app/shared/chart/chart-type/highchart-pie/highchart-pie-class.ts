@@ -22,6 +22,9 @@ export class HighchartPieClass implements IChartTypeInstance {
         type: 'pie',
         renderTo: element
       },
+      title: {
+        text: ''
+      },
       tooltip: {
         pointFormat: '<b>{point.percentage:.1f}%</b>'
       },

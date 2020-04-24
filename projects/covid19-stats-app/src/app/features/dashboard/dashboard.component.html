@@ -7,21 +7,15 @@
   <div class="dashboard__charts">
     <div class="dashboard__charts__row--50" fxLayout="row" fxLayoutAlign="stretch">
       <div fxFlex="50">
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartMapOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="highchartPieData" [chartOptions]="highchartPieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
       <div fxFlex="50">
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartPieOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="highchartMapData" [chartOptions]="highchartMapOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
     </div>
     <div class="dashboard__charts__row--50" fxLayout="row" fxLayoutAlign="stretch">
       <div fxFlex>
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
-      </div>
-      <div fxFlex>
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
-      </div>
-      <div fxFlex>
-        <cvd-chart-card [chartData]="chartPieData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
+        <cvd-chart-card [chartData]="highchartColumnData" [chartOptions]="highchartColumnOptions" fxLayout="column" fxFlexFill></cvd-chart-card>
       </div>
     </div>
   </div>
