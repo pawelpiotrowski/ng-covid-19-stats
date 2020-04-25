@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [ngClass]="{'chart-card--has-title': title && title.length > 0, 'mat-elevation-z1': true }">
   <mat-card-header *ngIf="title">
     <mat-card-title>{{ title }}</mat-card-title>
   </mat-card-header>

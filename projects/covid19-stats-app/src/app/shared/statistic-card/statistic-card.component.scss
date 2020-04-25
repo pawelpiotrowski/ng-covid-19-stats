@@ -1,3 +1,8 @@
-mat-icon {
-  font-size: 24px;
+:host {
+  mat-icon {
+    font-size: 24px;
+  }
+  mat-card-title {
+    font-size: 26px;
+  }
 }
