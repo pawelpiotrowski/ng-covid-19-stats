@@ -57,14 +57,7 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
   ngOnDestroy() {
     this.destroySubscriptions$.next(true);
     this.destroySubscriptions$.unsubscribe();
-
-    if (!this.isChartSet) {
-      return;
-    }
-
-    this.zone.runOutsideAngular(() => {
-      this.chart.destroy();
-    });
+    this.destroyChart();
   }
 
   private onOptionsChangesHandler(options: SimpleChange): void {
@@ -105,7 +98,6 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
     if (this.isChartSet) {
       return;
     }
-
     this.zone.runOutsideAngular(() => {
       this.chart = new ChartTypeClass();
       this.chart.create(this.chartDiv.nativeElement as HTMLElement, this.options, this.data);
@@ -124,7 +116,6 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
     if (this.isChartSet) {
       return;
     }
-
     this.chartArgumentsReady[flag] = true;
     if (Object.values(this.chartArgumentsReady).reduce((a, b) => a && b)) {
       this.setChart();
@@ -132,9 +123,18 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
   }
 
   private resizeHandler(): void {
-    this.chart.destroy();
-    this.isChartSet = false;
+    this.destroyChart();
     this.setChart();
+  }
+
+  private destroyChart(): void {
+    if (!this.isChartSet) {
+      return;
+    }
+    this.zone.runOutsideAngular(() => {
+      this.chart.destroy();
+    });
+    this.isChartSet = false;
   }
 
 }
