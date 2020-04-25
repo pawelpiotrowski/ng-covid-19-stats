@@ -164,7 +164,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     const splitFirstTimeLineItemDate = firstTimeLineItem.date.split('-').map((s) => Number(s));
     const timeLineStartDate = Date.UTC(splitFirstTimeLineItemDate[0], splitFirstTimeLineItemDate[1] - 1, splitFirstTimeLineItemDate[2]);
 
-    this.highchartColumnOptions = { type: 'highchartColumn', categories, title: 'Worst Affected', asBar: true };
+    this.highchartColumnOptions = { type: 'highchartColumn', categories, title: 'Worst Affected', asBar: true, stacking: 'normal' };
     this.highchartColumnData = { payload };
 
     this.highchartLineData = { payload: payloadLine };
