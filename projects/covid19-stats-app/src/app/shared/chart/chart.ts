@@ -1,8 +1,13 @@
 import { IChartOptionType } from './chart-type/chart-type';
 
 export interface IChartOptions {
-  categories?: string[];
   type: IChartOptionType;
+  categories?: string[]; // column or bar
+  pointStart?: Date | number; // line
+  asDonut?: boolean; // pie
+  asBar?: boolean; // column
+  title?: string;
+  stacking?: 'normal' | 'overlap' | 'percent' | 'stream'; // column or bar
 }
 
 export interface IChartData {

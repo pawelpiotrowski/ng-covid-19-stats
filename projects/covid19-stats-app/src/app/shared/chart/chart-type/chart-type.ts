@@ -2,6 +2,7 @@ import { IChartOptions, IChartData } from '../chart';
 import { IHighchartColumn } from './highchart-column/highchart-column-class';
 import { IHighchartPie } from './highchart-pie/highchart-pie-class';
 import { IHighchartMap } from './highchart-map/highchart-map-class';
+import { IHighchartLine } from './highchart-line/highchart-line-class';
 
 export interface IChartType {
   instance: IChartTypeInstance;
@@ -16,6 +17,6 @@ export interface IChartTypeInstance extends _IChartTypeInstance {
   chart: IChart;
 }
 
-export type IChartOptionType = 'highchartColumn' | 'highchartPie' | 'highchartMap';
+export type IChartOptionType = 'highchartLine' | 'highchartColumn' | 'highchartPie' | 'highchartMap';
 
-export type IChart = IHighchartColumn | IHighchartPie | IHighchartMap;
+export type IChart = IHighchartLine | IHighchartColumn | IHighchartPie | IHighchartMap;
