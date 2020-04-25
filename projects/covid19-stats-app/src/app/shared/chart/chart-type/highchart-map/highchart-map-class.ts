@@ -22,10 +22,17 @@ export class HighchartMapClass implements IChartTypeInstance {
     this.chart = Highcharts.mapChart({
       chart: {
         renderTo: element,
-        map: 'custom/world'
+        map: 'custom/world',
+        style: {
+          fontFamily: 'Roboto, Helvetica, sans-serif'
+        }
+      },
+      credits: {
+        enabled: false
       },
       title: {
-        text: ''
+        text: options.title || '',
+        align: 'left'
       },
       legend: {
         enabled: false
@@ -40,6 +47,13 @@ export class HighchartMapClass implements IChartTypeInstance {
           type: 'logarithmic',
           minColor: '#fffcf4',
           maxColor: '#f4b800',
+      },
+      plotOptions: {
+        series: {
+          events: {
+            click: this.seriesClickHandler.bind(this)
+          }
+        }
       },
       series: [
         {
@@ -66,5 +80,11 @@ export class HighchartMapClass implements IChartTypeInstance {
 
   public destroy(): void {
     this.chart.destroy();
+  }
+
+  private seriesClickHandler(event: any): void {
+    console.group('Highchart Map Click Handler');
+    console.log('event', event);
+    console.groupEnd();
   }
 }
