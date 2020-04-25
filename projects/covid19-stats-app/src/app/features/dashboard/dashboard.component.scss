@@ -1,19 +1,51 @@
+:host {
+  --card-height: 96px;
+}
+
 .dashboard {
-  &__charts {
+  &__cards {
+    height: var(--card-height);
+  }
+  &__card {
+    display: inline-block;
     height: 100%;
-    &__row {
-      &--50 {
-        height: 50%;
-      }
+    width: 25%;
+  }
+  &__charts {
+    height: calc(100% - var(--card-height));
+  }
+  &__charts-row {
+    height: 50%;
+  }
+  &__chart {
+    display: inline-block;
+    height: 100%;
+    &--quarter {
+      width: 25%;
     }
-    &__col {
-      height: 100%;
-      &--50 {
-        width: 50%;
-      }
-      &--33 {
-        width: 33%;
-      }
+    &--third {
+      width: 33%;
+    }
+    &--third-middle {
+      width: 34%;
+    }
+    &--three-eighths {
+      width: 37.5%;
+    }
+    &--half {
+      width: 50%;
+    }
+    &--five-eighths {
+      width: 62.5%;
+    }
+    &--two-thirds {
+      width: 66%;
+    }
+    &--three-quarters {
+      width: 75%;
+    }
+    &--full {
+      width: 100%;
     }
   }
 }

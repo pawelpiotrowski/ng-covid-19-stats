@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import groupBy from 'lodash-es/groupBy';
+import maxBy from 'lodash-es/maxBy';
 
 import { IStatisticCard, IStatisticCardStyleEnum } from '../../shared/statistic-card/statistic-card';
 import { DataService } from '../../core/services/data/data.service';
@@ -21,6 +22,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
   public highchartMapOptions: IChartOptions;
   public highchartColumnData: IChartData;
   public highchartColumnOptions: IChartOptions;
+  public highchartLineData: IChartData;
+  public highchartLineOptions: IChartOptions;
+  public highchartBarData: IChartData;
+  public highchartBarOptions: IChartOptions;
 
   private destroySubscriptions$: Subject<boolean> = new Subject<boolean>();
 
@@ -74,7 +79,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       }
     ];
 
-    this.highchartPieOptions = { type: 'highchartPie' };
+    this.highchartPieOptions = { type: 'highchartPie', title: 'Death Rate', asDonut: true };
 
     const colorList = ['#ef5350', '#66bb6a', '#29b6f6'];
     const pieData = this.globalStatsCards.slice(1).map((s, i, all) => {
@@ -96,8 +101,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
       })
       .filter((stat) => stat.z > 0);
 
-    this.highchartMapOptions = { type: 'highchartMap' };
+    this.highchartMapOptions = { type: 'highchartMap', title: 'Spread Worldwide' };
     this.highchartMapData = { payload: mapData };
+
+    this.highchartBarOptions = { type: 'highchartColumn', asBar: true, title: 'Worst Affected' };
+    // TODO: finding worst affected
+    console.log(maxBy(allStats, 'latest_data.confirmed'));
   }
 
   private timelineStatsUpdatesHandler(data: IDataTimelineStatsUpdate): void {
@@ -106,7 +115,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     }
 
     const groupDataByCategory = groupBy(data, (o) => `${o.date.split('-')[0]}-${o.date.split('-')[1]}`);
-    const categories = Object.keys(groupDataByCategory);
+    const categories = Object.keys(groupDataByCategory).reverse();
     const groupDataByCategoryReduced = categories.map((c) => ({
       category: c,
       infected: groupDataByCategory[c].map((i) => i.confirmed)[1],
@@ -133,8 +142,34 @@ export class DashboardComponent implements OnDestroy, OnInit {
       color: '#29b6f6'
     }];
 
-    this.highchartColumnOptions = { categories, type: 'highchartColumn' };
+    const payloadLine: any = [{
+      name: 'Infected',
+      data: data.map((c: any) => c.confirmed).reverse(),
+      color: '#ffca28'
+    }, {
+      name: 'Deaths',
+      data: data.map((c: any) => c.deaths).reverse(),
+      color: '#ef5350'
+    }, {
+      name: 'Recovered',
+      data: data.map((c: any) => c.recovered).reverse(),
+      color: '#66bb6a'
+    }, {
+      name: 'Unwell',
+      data: data.map((c: any) => c.active).reverse(),
+      color: '#29b6f6'
+    }];
+
+    const firstTimeLineItem = data[data.length - 1];
+    const splitFirstTimeLineItemDate = firstTimeLineItem.date.split('-').map((s) => Number(s));
+    const timeLineStartDate = Date.UTC(splitFirstTimeLineItemDate[0], splitFirstTimeLineItemDate[1] - 1, splitFirstTimeLineItemDate[2]);
+
+    this.highchartColumnOptions = { type: 'highchartColumn', categories, title: 'Worst Affected', asBar: true };
     this.highchartColumnData = { payload };
+
+    this.highchartLineData = { payload: payloadLine };
+    this.highchartLineOptions = { type: 'highchartLine', pointStart: timeLineStartDate, title: 'Timeline' };
+
   }
 
 }
