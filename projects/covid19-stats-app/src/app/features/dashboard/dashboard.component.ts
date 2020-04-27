@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import groupBy from 'lodash-es/groupBy';
 import maxBy from 'lodash-es/maxBy';
+import range from 'lodash-es/range';
 
 import { IStatisticCard, IStatisticCardStyleEnum } from '../../shared/statistic-card/statistic-card';
 import { DataService } from '../../core/services/data/data.service';
@@ -105,42 +105,49 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.highchartMapData = { payload: mapData };
 
     this.highchartBarOptions = { type: 'highchartColumn', asBar: true, title: 'Worst Affected' };
-    // TODO: finding worst affected
-    console.log(maxBy(allStats, 'latest_data.confirmed'));
+    const worstAffectedCollection = new Set();
+
+    range(5).forEach(() => {
+      const collection = allStats.filter((stat) => !worstAffectedCollection.has(stat));
+
+      worstAffectedCollection.add(maxBy(collection, 'latest_data.confirmed'));
+    });
+
+    const worstAffectedCategories = Array.from(worstAffectedCollection).map((o: any) => o.name);
+    const worstAffectedDeaths = Array.from(worstAffectedCollection).map((o: any) => o.latest_data.deaths);
+    const worstAffectedRecovered = Array.from(worstAffectedCollection).map((o: any) => o.latest_data.recovered);
+    const worstAffectedInfected = Array.from(worstAffectedCollection).map((o: any) => o.latest_data.confirmed);
+    const worstAffectedUnwell = worstAffectedInfected.map((wai, i) => wai - worstAffectedDeaths[i] - worstAffectedRecovered[i]);
+
+    const payload: any = [{
+      name: 'Deaths',
+      data: worstAffectedDeaths,
+      color: '#ef5350'
+    }, {
+      name: 'Recovered',
+      data: worstAffectedRecovered,
+      color: '#66bb6a'
+    }, {
+      name: 'Unwell',
+      data: worstAffectedUnwell,
+      color: '#29b6f6'
+    }];
+
+    this.highchartColumnOptions = {
+      type: 'highchartColumn',
+      categories: worstAffectedCategories,
+      title: 'Worst Affected',
+      asBar: true,
+      stacking: 'normal'
+    };
+    this.highchartColumnData = { payload };
+
   }
 
   private timelineStatsUpdatesHandler(data: IDataTimelineStatsUpdate): void {
     if (data === null) {
       return;
     }
-
-    const groupDataByCategory = groupBy(data, (o) => `${o.date.split('-')[0]}-${o.date.split('-')[1]}`);
-    const categories = Object.keys(groupDataByCategory).reverse();
-    const groupDataByCategoryReduced = categories.map((c) => ({
-      category: c,
-      infected: groupDataByCategory[c].map((i) => i.confirmed)[1],
-      deaths: groupDataByCategory[c].map((i) => i.deaths)[1],
-      recovered: groupDataByCategory[c].map((i) => i.recovered)[1],
-      unwell: groupDataByCategory[c].map((i) => i.active)[1]
-    }));
-
-    const payload: any = [{
-      name: 'Infected',
-      data: groupDataByCategoryReduced.map((c: any) => c.infected),
-      color: '#ffca28'
-    }, {
-      name: 'Deaths',
-      data: groupDataByCategoryReduced.map((c: any) => c.deaths),
-      color: '#ef5350'
-    }, {
-      name: 'Recovered',
-      data: groupDataByCategoryReduced.map((c: any) => c.recovered),
-      color: '#66bb6a'
-    }, {
-      name: 'Unwell',
-      data: groupDataByCategoryReduced.map((c: any) => c.unwell),
-      color: '#29b6f6'
-    }];
 
     const payloadLine: any = [{
       name: 'Infected',
@@ -163,9 +170,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
     const firstTimeLineItem = data[data.length - 1];
     const splitFirstTimeLineItemDate = firstTimeLineItem.date.split('-').map((s) => Number(s));
     const timeLineStartDate = Date.UTC(splitFirstTimeLineItemDate[0], splitFirstTimeLineItemDate[1] - 1, splitFirstTimeLineItemDate[2]);
-
-    this.highchartColumnOptions = { type: 'highchartColumn', categories, title: 'Worst Affected', asBar: true, stacking: 'normal' };
-    this.highchartColumnData = { payload };
 
     this.highchartLineData = { payload: payloadLine };
     this.highchartLineOptions = { type: 'highchartLine', pointStart: timeLineStartDate, title: 'Timeline' };
