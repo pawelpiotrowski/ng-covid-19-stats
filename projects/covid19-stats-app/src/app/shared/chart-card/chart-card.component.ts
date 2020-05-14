@@ -8,7 +8,6 @@ import { IChartOptions, IChartData } from '../chart/chart';
   styleUrls: ['./chart-card.component.scss']
 })
 export class ChartCardComponent {
-  @Input() title: string;
   @Input() chartOptions: IChartOptions;
   @Input() chartData: IChartData;
 }

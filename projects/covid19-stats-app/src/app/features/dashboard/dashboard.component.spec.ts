@@ -57,9 +57,9 @@ describe('DashboardComponent', () => {
         dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.returnValue(new BehaviorSubject(null));
       });
 
-      it('should not populate globalStats', () => {
+      it('should not populate globalStatsCards', () => {
         component.ngOnInit();
-        expect(component.globalStats).toBeUndefined();
+        expect(component.globalStatsCards).toBeUndefined();
       });
     });
 
@@ -70,9 +70,9 @@ describe('DashboardComponent', () => {
         dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
       });
 
-      it('should populate globalStats', () => {
+      it('should populate globalStatsCards', () => {
         component.ngOnInit();
-        expect(component.globalStats).toEqual([
+        expect(component.globalStatsCards).toEqual([
           {
             label: 'Infected',
             style: IStatisticCardStyleEnum.warn,

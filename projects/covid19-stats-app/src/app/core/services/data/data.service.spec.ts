@@ -54,7 +54,8 @@ describe('DataService', () => {
         deaths: expectedDeaths,
         ill: expectedIll,
         infected: expectedInfected,
-        recovered: expectedRecovered
+        recovered: expectedRecovered,
+        allStats: []
       });
     });
   });
