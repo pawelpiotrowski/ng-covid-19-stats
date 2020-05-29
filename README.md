@@ -18,6 +18,8 @@ Run `npx ng generate component component-name` to generate a new component. You 
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+To test build version cd to dist/app folder and run `npx http-server --proxy "http://localhost:8080?"`
+
 ## Running unit tests
 
 Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io) in headless Chrome.
