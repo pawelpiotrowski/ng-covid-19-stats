@@ -39,24 +39,8 @@ describe('DataService', () => {
 
     it('should update globalStats subject value', () => {
       const globalStats = service.getGlobalStatsUpdates();
-      const deaths1 = backendCountryLatestStatsDataMock[0].latest_data.deaths;
-      const deaths2 = backendCountryLatestStatsDataMock[1].latest_data.deaths;
-      const expectedDeaths = deaths1 + deaths2;
-      const infected1 = backendCountryLatestStatsDataMock[0].latest_data.confirmed;
-      const infected2 = backendCountryLatestStatsDataMock[1].latest_data.confirmed;
-      const expectedInfected = infected1 + infected2;
-      const recovered1 = backendCountryLatestStatsDataMock[0].latest_data.recovered;
-      const recovered2 = backendCountryLatestStatsDataMock[1].latest_data.recovered;
-      const expectedRecovered = recovered1 + recovered2;
-      const expectedIll = expectedInfected - expectedDeaths - expectedRecovered;
 
-      expect(globalStats.value).toEqual({
-        deaths: expectedDeaths,
-        ill: expectedIll,
-        infected: expectedInfected,
-        recovered: expectedRecovered,
-        allStats: []
-      });
+      expect(globalStats.value?.allStats.length).toEqual(2);
     });
   });
 });

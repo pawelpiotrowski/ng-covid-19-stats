@@ -8,7 +8,7 @@ export interface IDataGlobalStats {
   allStats: IBackendCountryLatestStat[];
 }
 
-export type IDataGlobalStatsUpdate = IDataGlobalStats | null;
+export type IDataGlobalStatsUpdate = { allStats: IBackendCountryLatestStat[] } | null;
 
 export type IDataGlobalStatsLatestProp = 'confirmed' | 'deaths' | 'recovered';
 

@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { IDataGlobalStats, IDataGlobalStatsUpdate } from './data';
+import { IDataGlobalStats, IDataGlobalStatsUpdate, IDataTimelineStatsUpdate } from './data';
 
 export const globalStatsUpdateDataMock: IDataGlobalStats = {
   deaths: 10,
@@ -12,5 +12,9 @@ export const globalStatsUpdateDataMock: IDataGlobalStats = {
 export class DataServiceMock {
   getGlobalStatsUpdates(): BehaviorSubject<IDataGlobalStatsUpdate> {
     return new BehaviorSubject(globalStatsUpdateDataMock);
+  }
+
+  getTimelineStatsUpdates(): BehaviorSubject<IDataTimelineStatsUpdate> {
+    return new BehaviorSubject([]);
   }
 }

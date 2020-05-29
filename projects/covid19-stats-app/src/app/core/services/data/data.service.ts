@@ -3,10 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { BackendService } from '../backend/backend.service';
-import { IDataGlobalStatsUpdate, IDataGlobalStatsLatestProp, IDataTimelineStatsUpdate } from './data';
+import { IDataGlobalStatsUpdate, IDataTimelineStatsUpdate } from './data';
 import {
   IBackendCountriesLatestStatsPayload,
-  IBackendCountryLatestStat,
   IBackendTimelinePayload
 } from '../backend/backend';
 
@@ -67,21 +66,7 @@ export class DataService {
   }
 
   private fetchGlobalStatsPayloadHandler(payload: IBackendCountriesLatestStatsPayload): void {
-    const deaths = this.reduceGlobalStatsPayloadToLatestNumberOf(payload, 'deaths');
-    const infected = this.reduceGlobalStatsPayloadToLatestNumberOf(payload, 'confirmed');
-    const recovered = this.reduceGlobalStatsPayloadToLatestNumberOf(payload, 'recovered');
-    const ill = infected - deaths - recovered;
-    const allStats = payload.data;
-
-    this.globalStats$.next({ deaths, infected, recovered, ill, allStats });
-  }
-
-  private reduceGlobalStatsPayloadToLatestNumberOf(
-    payload: IBackendCountriesLatestStatsPayload,
-    numberOf: IDataGlobalStatsLatestProp
-  ): number {
-    return payload.data.map((d: IBackendCountryLatestStat) => d.latest_data[numberOf])
-      .reduce((a: number, b: number) => a + b);
+   this.globalStats$.next({ allStats: payload.data });
   }
 
   private fetchTimelineStatsPayloadHandler({ data }: IBackendTimelinePayload): void {
