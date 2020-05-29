@@ -37,7 +37,8 @@
             "styles": [
               "projects/covid19-stats-app/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "projects/covid19-stats-app/tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -101,7 +102,8 @@
             "styles": [
               "projects/covid19-stats-app/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "projects/covid19-stats-app/tsconfig.worker.json"
           }
         },
         "lint": {
@@ -110,7 +112,8 @@
             "tsConfig": [
               "projects/covid19-stats-app/tsconfig.app.json",
               "projects/covid19-stats-app/tsconfig.spec.json",
-              "projects/covid19-stats-app/e2e/tsconfig.json"
+              "projects/covid19-stats-app/e2e/tsconfig.json",
+              "projects/covid19-stats-app/tsconfig.worker.json"
             ],
             "exclude": [
               "**/node_modules/**"
