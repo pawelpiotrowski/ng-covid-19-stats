@@ -14,11 +14,6 @@ export class HighchartMapClass implements IChartTypeInstance {
   public chart: IHighchartMap;
 
   public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
-    console.group('Highchart Map');
-    console.log('options', options);
-    console.log('data', data);
-    console.groupEnd();
-
     this.chart = Highcharts.mapChart({
       chart: {
         renderTo: element,

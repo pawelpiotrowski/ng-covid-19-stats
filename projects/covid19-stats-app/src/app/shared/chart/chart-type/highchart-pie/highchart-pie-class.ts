@@ -10,11 +10,6 @@ export class HighchartPieClass implements IChartTypeInstance {
   public chart: IHighchartPie;
 
   public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
-    console.group('Highchart Pie');
-    console.log('options', options);
-    console.log('data', data);
-    console.groupEnd();
-
     const formatLabel = this.formatLabel.bind(this);
 
     this.chart = Highcharts.chart({

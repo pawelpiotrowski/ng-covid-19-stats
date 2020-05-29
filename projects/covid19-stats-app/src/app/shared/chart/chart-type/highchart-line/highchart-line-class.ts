@@ -9,11 +9,6 @@ export class HighchartLineClass implements IChartTypeInstance {
   public chart: IHighchartLine;
 
   public create(element: HTMLElement, options: IChartOptions, data: IChartData): void {
-    console.group('Highchart Line');
-    console.log('options', options);
-    console.log('data', data);
-    console.groupEnd();
-
     this.chart = Highcharts.chart({
       chart: {
         renderTo: element,
