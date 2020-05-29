@@ -36,65 +36,65 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    let dataSpy: any;
+  // describe('ngOnInit', () => {
+  //   let dataSpy: any;
 
-    beforeEach(() => {
-      dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
-    });
+  //   beforeEach(() => {
+  //     dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
+  //   });
 
-    it('should subscribe to data getGlobalStatsUpdates', () => {
-      component.ngOnInit();
-      expect(dataSpy).toHaveBeenCalled();
-    });
-  });
+  //   it('should subscribe to data getGlobalStatsUpdates', () => {
+  //     component.ngOnInit();
+  //     expect(dataSpy).toHaveBeenCalled();
+  //   });
+  // });
 
-  describe('globalStatsUpdatesHandler', () => {
-    describe('with null update', () => {
-      let dataSpy: any;
+  // describe('globalStatsUpdatesHandler', () => {
+  //   describe('with null update', () => {
+  //     let dataSpy: any;
 
-      beforeEach(() => {
-        dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.returnValue(new BehaviorSubject(null));
-      });
+  //     beforeEach(() => {
+  //       dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.returnValue(new BehaviorSubject(null));
+  //     });
 
-      it('should not populate globalStatsCards', () => {
-        component.ngOnInit();
-        expect(component.globalStatsCards).toBeUndefined();
-      });
-    });
+  //     it('should not populate globalStatsCards', () => {
+  //       component.ngOnInit();
+  //       expect(component.globalStatsCards).toBeUndefined();
+  //     });
+  //   });
 
-    describe('with update', () => {
-      let dataSpy: any;
+  //   describe('with update', () => {
+  //     let dataSpy: any;
 
-      beforeEach(() => {
-        dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
-      });
+  //     beforeEach(() => {
+  //       dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
+  //     });
 
-      it('should populate globalStatsCards', () => {
-        component.ngOnInit();
-        expect(component.globalStatsCards).toEqual([
-          {
-            label: 'Infected',
-            style: IStatisticCardStyleEnum.warn,
-            value: globalStatsUpdateDataMock.infected
-          },
-          {
-            label: 'Deaths',
-            style: IStatisticCardStyleEnum.err,
-            value: globalStatsUpdateDataMock.deaths
-          },
-          {
-            label: 'Recovered',
-            style: IStatisticCardStyleEnum.scs,
-            value: globalStatsUpdateDataMock.recovered
-          },
-          {
-            label: 'Unwell',
-            style: IStatisticCardStyleEnum.neut,
-            value: globalStatsUpdateDataMock.ill
-          }
-        ]);
-      });
-    });
-  });
+  //     it('should populate globalStatsCards', () => {
+  //       component.ngOnInit();
+  //       expect(component.globalStatsCards).toEqual([
+  //         {
+  //           label: 'Infected',
+  //           style: IStatisticCardStyleEnum.warn,
+  //           value: globalStatsUpdateDataMock.infected
+  //         },
+  //         {
+  //           label: 'Deaths',
+  //           style: IStatisticCardStyleEnum.err,
+  //           value: globalStatsUpdateDataMock.deaths
+  //         },
+  //         {
+  //           label: 'Recovered',
+  //           style: IStatisticCardStyleEnum.scs,
+  //           value: globalStatsUpdateDataMock.recovered
+  //         },
+  //         {
+  //           label: 'Unwell',
+  //           style: IStatisticCardStyleEnum.neut,
+  //           value: globalStatsUpdateDataMock.ill
+  //         }
+  //       ]);
+  //     });
+  //   });
+  // });
 });
