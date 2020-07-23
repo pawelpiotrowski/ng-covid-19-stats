@@ -54,7 +54,7 @@ export class ChartComponent implements AfterViewInit, OnChanges, OnDestroy, OnIn
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroySubscriptions$.next(true);
     this.destroySubscriptions$.unsubscribe();
     this.destroyChart();
