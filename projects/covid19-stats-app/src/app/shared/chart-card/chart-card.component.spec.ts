@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ChartCardComponent } from './chart-card.component';
 import { ChartComponent } from '../chart/chart.component';
@@ -15,7 +16,8 @@ describe('ChartCardComponent', () => {
         ChartComponent,
       ],
       imports: [
-        MatCardModule
+        MatCardModule,
+        MatProgressSpinnerModule,
       ]
     })
     .compileComponents();
