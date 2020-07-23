@@ -7,6 +7,7 @@
     "build": "npx ng build --prod",
     "test": "npx ng test --watch=false --browsers ChromeHeadless",
     "test-watch": "npx ng test",
+    "test-coverage": "npx ng test --watch=false --codeCoverage=true --browsers ChromeHeadless",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
     "analyze": "npx ng build --prod --stats-json && webpack-bundle-analyzer ./dist/covid19-stats-app/stats-es2015.json"
