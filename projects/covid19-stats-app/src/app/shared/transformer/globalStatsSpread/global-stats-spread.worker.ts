@@ -1,12 +1,11 @@
 /// <reference lib="webworker" />
 
 import attempt from 'lodash-es/attempt';
-import { IDataGlobalStats } from '../../../core/services/data/data';
+import { IDataGlobalStatsUpdate } from '../../../core/services/data/data';
 
 addEventListener('message', ({ data }) => {
-  const parseRawData = (rawData: any) => {
-    const { allStats } = rawData as IDataGlobalStats;
-    const outputData = allStats
+  const parseRawData = (rawData: IDataGlobalStatsUpdate) => {
+    const outputData = rawData?.allStats
     .map((stat) => {
       return {
         code: stat.code,
