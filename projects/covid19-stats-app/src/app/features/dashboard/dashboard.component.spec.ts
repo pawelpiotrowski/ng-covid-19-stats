@@ -1,11 +1,8 @@
 import { async, ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
-
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
 import { DataService } from '../../core/services/data/data.service';
-import { DataServiceMock, globalStatsUpdateDataMock } from '../../core/services/data/data.service.mock';
-import { IStatisticCardStyleEnum } from '../../shared/statistic-card/statistic-card';
+import { DataServiceMock } from '../../core/services/data/data.service.mock';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -36,65 +33,179 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // describe('ngOnInit', () => {
-  //   let dataSpy: any;
+  describe('ngOnInit', () => {
+    let globalStatsDataSpy: any;
+    let timelineStatsDataSpy: any;
 
-  //   beforeEach(() => {
-  //     dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
-  //   });
+    beforeEach(() => {
+      globalStatsDataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
+      timelineStatsDataSpy = spyOn(data, 'getTimelineStatsUpdates').and.callThrough();
+      component.ngOnInit();
+    });
 
-  //   it('should subscribe to data getGlobalStatsUpdates', () => {
-  //     component.ngOnInit();
-  //     expect(dataSpy).toHaveBeenCalled();
-  //   });
-  // });
+    it('should subscribe to globalStats updates', () => {
+      expect(globalStatsDataSpy).toHaveBeenCalled();
+    });
 
-  // describe('globalStatsUpdatesHandler', () => {
-  //   describe('with null update', () => {
-  //     let dataSpy: any;
+    it('should subscribe to timelineStats updates', () => {
+      expect(timelineStatsDataSpy).toHaveBeenCalled();
+    });
 
-  //     beforeEach(() => {
-  //       dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.returnValue(new BehaviorSubject(null));
-  //     });
+    it('should set globalStatsCards data', (done: any) => {
+      // tslint:disable-next-line: no-string-literal
+      component['globalStatsCardsTransformer'].getTransformUpdates()
+        .subscribe((update: any) => {
+          expect(component.globalStatsCards).toEqual(update);
+          done();
+        });
+    });
 
-  //     it('should not populate globalStatsCards', () => {
-  //       component.ngOnInit();
-  //       expect(component.globalStatsCards).toBeUndefined();
-  //     });
-  //   });
+    it('should set highchart pie options and data', (done: any) => {
+      // tslint:disable-next-line: no-string-literal
+      component['globalStatsProportionsTransformer'].getTransformUpdates()
+        .subscribe((update: any) => {
+          expect(component.highchartPieOptions).toEqual({ type: 'highchartPie', title: 'Death Rate', asDonut: true });
+          expect(component.highchartPieData).toEqual({ payload: update });
+          done();
+        });
+    });
 
-  //   describe('with update', () => {
-  //     let dataSpy: any;
+    it('should set highchart map options and data', (done: any) => {
+      // tslint:disable-next-line: no-string-literal
+      component['globalStatsSpreadTransformer'].getTransformUpdates()
+        .subscribe((update: any) => {
+          expect(component.highchartMapOptions).toEqual({ type: 'highchartMap', title: 'Spread Worldwide' });
+          expect(component.highchartMapData).toEqual({ payload: update });
+          done();
+        });
+    });
 
-  //     beforeEach(() => {
-  //       dataSpy = spyOn(data, 'getGlobalStatsUpdates').and.callThrough();
-  //     });
+    it('should set highchart column options and data', (done: any) => {
+      // tslint:disable-next-line: no-string-literal
+      component['globalStatsHighestTransformer'].getTransformUpdates()
+        .subscribe((update: any) => {
+          const { categories, payload } = update;
 
-  //     it('should populate globalStatsCards', () => {
-  //       component.ngOnInit();
-  //       expect(component.globalStatsCards).toEqual([
-  //         {
-  //           label: 'Infected',
-  //           style: IStatisticCardStyleEnum.warn,
-  //           value: globalStatsUpdateDataMock.infected
-  //         },
-  //         {
-  //           label: 'Deaths',
-  //           style: IStatisticCardStyleEnum.err,
-  //           value: globalStatsUpdateDataMock.deaths
-  //         },
-  //         {
-  //           label: 'Recovered',
-  //           style: IStatisticCardStyleEnum.scs,
-  //           value: globalStatsUpdateDataMock.recovered
-  //         },
-  //         {
-  //           label: 'Unwell',
-  //           style: IStatisticCardStyleEnum.neut,
-  //           value: globalStatsUpdateDataMock.ill
-  //         }
-  //       ]);
-  //     });
-  //   });
-  // });
+          expect(component.highchartColumnOptions).toEqual({
+            type: 'highchartColumn',
+            categories,
+            title: 'Worst Affected',
+            asBar: true,
+            stacking: 'normal'
+          });
+          expect(component.highchartColumnData).toEqual({ payload });
+          done();
+        });
+    });
+
+    it('should set highchart line options and data', (done: any) => {
+      // tslint:disable-next-line: no-string-literal
+      component['globalStatsTimelineTransformer'].getTransformUpdates()
+        .subscribe((update: any) => {
+          const { pointStart, payload } = update;
+
+          expect(component.highchartLineOptions).toEqual({ type: 'highchartLine', pointStart, title: 'Timeline' });
+          expect(component.highchartLineData).toEqual({ payload });
+          done();
+        });
+    });
+  });
+
+  describe('globalStatsUpdatesHandler', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    describe('when updates is not null', () => {
+      let globalStatsCardsTransformerSpy: any;
+      let globalStatsProportionsTransformerSpy: any;
+      let globalStatsSpreadTransformerSpy: any;
+      let globalStatsHighestTransformerSpy: any;
+
+      beforeEach(() => {
+        // tslint:disable-next-line: no-string-literal
+        globalStatsCardsTransformerSpy = spyOn(component['globalStatsCardsTransformer'], 'transform');
+        // tslint:disable-next-line: no-string-literal
+        globalStatsProportionsTransformerSpy = spyOn(component['globalStatsProportionsTransformer'], 'transform');
+        // tslint:disable-next-line: no-string-literal
+        globalStatsSpreadTransformerSpy = spyOn(component['globalStatsSpreadTransformer'], 'transform');
+        // tslint:disable-next-line: no-string-literal
+        globalStatsHighestTransformerSpy = spyOn(component['globalStatsHighestTransformer'], 'transform');
+      });
+
+      it('should attempt to transform raw data', () => {
+        // tslint:disable-next-line: no-string-literal
+        component['globalStatsUpdatesHandler']({
+          allStats: [],
+        });
+        expect(globalStatsCardsTransformerSpy).toHaveBeenCalled();
+        expect(globalStatsProportionsTransformerSpy).toHaveBeenCalled();
+        expect(globalStatsSpreadTransformerSpy).toHaveBeenCalled();
+        expect(globalStatsHighestTransformerSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('when updates is null', () => {
+      let globalStatsCardsTransformerSpy: any;
+      let globalStatsProportionsTransformerSpy: any;
+      let globalStatsSpreadTransformerSpy: any;
+      let globalStatsHighestTransformerSpy: any;
+
+      beforeEach(() => {
+        // tslint:disable-next-line: no-string-literal
+        globalStatsCardsTransformerSpy = spyOn(component['globalStatsCardsTransformer'], 'transform');
+        // tslint:disable-next-line: no-string-literal
+        globalStatsProportionsTransformerSpy = spyOn(component['globalStatsProportionsTransformer'], 'transform');
+        // tslint:disable-next-line: no-string-literal
+        globalStatsSpreadTransformerSpy = spyOn(component['globalStatsSpreadTransformer'], 'transform');
+        // tslint:disable-next-line: no-string-literal
+        globalStatsHighestTransformerSpy = spyOn(component['globalStatsHighestTransformer'], 'transform');
+      });
+
+      it('should attempt to transform raw data', () => {
+        // tslint:disable-next-line: no-string-literal
+        component['globalStatsUpdatesHandler'](null);
+        expect(globalStatsCardsTransformerSpy).not.toHaveBeenCalled();
+        expect(globalStatsProportionsTransformerSpy).not.toHaveBeenCalled();
+        expect(globalStatsSpreadTransformerSpy).not.toHaveBeenCalled();
+        expect(globalStatsHighestTransformerSpy).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('timelineStatsUpdatesHandler', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    describe('when updates is not null', () => {
+      let timelineStatsTransformerSpy: any;
+
+      beforeEach(() => {
+        // tslint:disable-next-line: no-string-literal
+        timelineStatsTransformerSpy = spyOn(component['globalStatsTimelineTransformer'], 'transform');
+      });
+
+      it('should attempt to transform raw data', () => {
+        // tslint:disable-next-line: no-string-literal
+        component['timelineStatsUpdatesHandler']([]);
+        expect(timelineStatsTransformerSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('when updates is null', () => {
+      let timelineStatsTransformerSpy: any;
+
+      beforeEach(() => {
+        // tslint:disable-next-line: no-string-literal
+        timelineStatsTransformerSpy = spyOn(component['globalStatsTimelineTransformer'], 'transform');
+      });
+
+      it('should not attempt to transform raw data', () => {
+        // tslint:disable-next-line: no-string-literal
+        component['timelineStatsUpdatesHandler'](null);
+        expect(timelineStatsTransformerSpy).not.toHaveBeenCalled();
+      });
+    });
+  });
 });

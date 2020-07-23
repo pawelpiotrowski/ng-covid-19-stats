@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IStatisticCard } from '../../shared/statistic-card/statistic-card';
 import { DataService } from '../../core/services/data/data.service';
-import { IDataGlobalStats, IDataTimelineStatsUpdate } from '../../core/services/data/data';
+import { IDataGlobalStatsUpdate, IDataTimelineStatsUpdate } from '../../core/services/data/data';
 import { IChartOptions, IChartData } from '../../shared/chart/chart';
 import { TransformerClass } from '../../shared/transformer/transformer-class';
 
@@ -52,7 +52,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       .subscribe(this.timelineStatsUpdatesHandler.bind(this));
   }
 
-  private globalStatsUpdatesHandler(data: IDataGlobalStats): void {
+  private globalStatsUpdatesHandler(data: IDataGlobalStatsUpdate): void {
     if (data === null) {
       return;
     }
