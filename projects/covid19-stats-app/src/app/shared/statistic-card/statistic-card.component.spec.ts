@@ -30,27 +30,38 @@ describe('StatisticCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // describe('ngOnChanges', () => {
-  //   beforeEach(() => {
-  //     const mockInput = {
-  //       label: 'Foo',
-  //       style: IStatisticCardStyleEnum.warn,
-  //       value: 1
-  //     };
+  describe('ngOnChanges', () => {
+    describe('when changes are not empty', () => {
+      beforeEach(() => {
+        const mockInput = {
+          label: 'Foo',
+          style: IStatisticCardStyleEnum.warn,
+          value: 1
+        };
 
-  //     component.stat = mockInput;
-  //     component.ngOnChanges({
-  //       stat: {
-  //         currentValue: mockInput
-  //       }
-  //     } as any);
-  //   });
+        component.stat = mockInput;
+        component.ngOnChanges({
+          stat: {
+            currentValue: mockInput
+          }
+        } as any);
+      });
 
-  //   it('should set stat label value and icon and color class', () => {
-  //     expect(component.label).toEqual('Foo');
-  //     expect(component.value).toEqual(1);
-  //     expect(component.icon).toEqual('warning');
-  //     expect(component.colorClass).toEqual('app-text--warn');
-  //   });
-  // });
+      it('should set stat label value and icon and color class', () => {
+        expect(component.label).toEqual('Foo');
+        expect(component.value).toEqual(1);
+        expect(component.icon).toEqual('warning');
+        expect(component.colorClass).toEqual('app-text--warn');
+      });
+    });
+
+    describe('when changes are empty', () => {
+      it('should not attempt to set stat', () => {
+        const setStatSpy = spyOn(component as any, 'setStat');
+
+        component.ngOnChanges({} as any);
+        expect(setStatSpy).not.toHaveBeenCalled();
+      });
+    });
+  });
 });
