@@ -43,13 +43,13 @@ export class HighchartMapClass implements IChartTypeInstance {
           minColor: '#fffcf4',
           maxColor: '#f4b800',
       },
-      plotOptions: {
-        series: {
-          events: {
-            click: this.seriesClickHandler.bind(this)
-          }
-        }
-      },
+      // plotOptions: {
+      //   series: {
+      //     events: {
+      //       click: this.seriesClickHandler.bind(this)
+      //     }
+      //   }
+      // },
       series: [
         {
           type: 'map',
@@ -77,9 +77,9 @@ export class HighchartMapClass implements IChartTypeInstance {
     this.chart.destroy();
   }
 
-  private seriesClickHandler(event: any): void {
-    console.group('Highchart Map Click Handler');
-    console.log('event', event);
-    console.groupEnd();
-  }
+  // private seriesClickHandler(event: any): void {
+  //   console.group('Highchart Map Click Handler');
+  //   console.log('event', event);
+  //   console.groupEnd();
+  // }
 }
