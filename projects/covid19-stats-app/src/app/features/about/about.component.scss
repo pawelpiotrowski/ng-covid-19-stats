@@ -1,0 +1,14 @@
+.about-article {
+  max-width: 890px;
+  font-size: 1.5em;
+  margin: 0 auto;
+  padding: 32px;
+  line-height: 1.4;
+  a {
+    color: #0070f3;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
